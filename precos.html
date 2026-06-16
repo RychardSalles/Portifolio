@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabela de Preços – RD Webdesign</title>
+  <meta name="description" content="Preços transparentes e sem surpresas. Confira a tabela completa dos serviços da RD Webdesign.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Hero da página de preços ───────────────────────── */
+    #price-hero {
+      min-height: 44vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px max(6%, calc(50vw - 700px)) 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ph-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 0%, rgba(26,127,240,.14) 0%, transparent 70%);
+    }
+
+    .ph-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(26,127,240,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,240,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .ph-content { position: relative; z-index: 1; max-width: 680px; }
+
+    .ph-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,240,.12);
+      border: 1px solid rgba(26,127,240,.3);
+      border-radius: 100px; padding: 6px 18px;
+      font-size: .75rem; font-weight: 700; color: var(--blue-light);
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px;
+    }
+
+    .ph-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 16px;
+    }
+
+    .ph-title span { color: var(--blue); }
+
+    .ph-sub {
+      color: var(--gray); font-size: 1.05rem;
+      line-height: 1.7; max-width: 500px; margin: 0 auto;
+    }
+
+    /* ── Tabela de preços ───────────────────────────────── */
+    #price-table {
+      background: var(--dark2);
+      padding: 60px max(6%, calc(50vw - 700px)) 100px;
+    }
+
+    /* Cards de preço por categoria */
+    .price-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .price-cat-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .price-cat-card:hover { border-color: rgba(26,127,240,.3); transform: translateY(-4px); }
+    .price-cat-card.featured { border-color: rgba(26,127,240,.3); }
+
+    .cat-icon  { font-size: 2rem; margin-bottom: 16px; }
+    .cat-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+    .cat-desc  { font-size: .85rem; color: var(--gray); line-height: 1.6; margin-bottom: 20px; }
+    .cat-price {
+      font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+      color: var(--blue); margin-bottom: 20px;
+    }
+    .cat-price small { font-size: .7em; color: var(--gray); font-family: 'Inter', sans-serif; font-weight: 400; }
+
+    .cat-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+    .cat-features li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .85rem; color: var(--gray-light);
+    }
+    .cat-features li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+
+    /* ── Tabela detalhada com todos os serviços ─────────── */
+    .table-section-title {
+      font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+      margin-bottom: 24px; color: var(--white);
+    }
+
+    .pricing-table {
+      width: 100%; border-collapse: collapse;
+      border-radius: var(--radius); overflow: hidden;
+    }
+
+    .pricing-table thead th {
+      background: var(--blue); padding: 16px 24px;
+      text-align: left;
+      font-family: 'Syne', sans-serif; font-size: .85rem;
+      font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    }
+
+    .pricing-table thead th:last-child { text-align: right; }
+
+    .pricing-table tbody tr {
+      background: var(--dark3);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      transition: background .2s; cursor: pointer;
+    }
+
+    .pricing-table tbody tr:hover { background: var(--dark4); }
+
+    .pricing-table tbody tr.highlight {
+      background: rgba(26,127,240,.1);
+      border-left: 3px solid var(--blue);
+    }
+
+    .pricing-table tbody td { padding: 18px 24px; font-size: .95rem; }
+
+    .pricing-table tbody td:last-child {
+      text-align: right; font-weight: 700;
+      color: var(--blue); font-family: 'Syne', sans-serif; font-size: 1rem;
+    }
+
+    .row-content { display: flex; align-items: center; justify-content: space-between; }
+    .row-arrow { color: var(--gray); font-size: .8rem; transition: transform .2s; }
+    .pricing-table tbody tr:hover .row-arrow { transform: translateX(4px); color: var(--blue); }
+
+    /* ── Nota de transparência ──────────────────────────── */
+    .transparency-note {
+      background: rgba(26,127,240,.08);
+      border: 1px solid rgba(26,127,240,.2);
+      border-radius: var(--radius); padding: 24px 32px;
+      margin-top: 32px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+
+    .transparency-note-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .transparency-note-title { font-weight: 700; margin-bottom: 6px; font-size: .95rem; }
+    .transparency-note-text  { font-size: .85rem; color: var(--gray); line-height: 1.6; }
+
+    /* ── CTA final ───────────────────────────────────────── */
+    #price-cta {
+      background: var(--dark); padding: 80px max(6%, calc(50vw - 700px));
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 680px; margin: 0 auto;
+      background: linear-gradient(135deg, rgba(26,127,240,.12), rgba(26,127,240,.04));
+      border: 1px solid rgba(26,127,240,.25);
+      border-radius: 24px; padding: 56px 48px;
+    }
+
+    .cta-box .section-title { margin-bottom: 12px; }
+    .cta-box p { color: var(--gray); font-size: 1rem; line-height: 1.7; margin-bottom: 32px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 720px) {
+      .price-categories { grid-template-columns: 1fr; }
+      .pricing-table thead th, .pricing-table tbody td { padding: 14px 16px; }
+      .cta-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVEGAÇÃO ===== -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+  </a>
+
+  <button class="nav-toggle" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links">
+    <li><a href="index.html#services">Serviços</a></li>
+    <li><a href="precos.html" style="color:var(--blue)">Preços</a></li>
+    <li><a href="index.html#portfolio">Portfólio</a></li>
+    <li><a href="index.html#process">Processo</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Solicitar Orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="price-hero">
+  <div class="ph-bg"></div>
+  <div class="ph-grid"></div>
+
+  <div class="ph-content fade-in">
+    <div class="ph-badge">💰 Tabela de preços</div>
+    <h1 class="ph-title">Preços <span>transparentes</span><br>sem surpresas</h1>
+    <p class="ph-sub">
+      O valor que você vê aqui é o valor que você paga.
+      Sem taxas escondidas, sem cobrar por extras básicos.
+    </p>
+  </div>
+</section>
+
+<!-- ===== TABELA ===== -->
+<section id="price-table">
+
+  <!-- Cards resumo dos principais serviços -->
+  <div class="price-categories">
+
+    <div class="price-cat-card fade-in">
+      <div class="cat-icon">🌐</div>
+      <div class="cat-title">Site Institucional</div>
+      <p class="cat-desc">Presença profissional que atrai clientes 24h por dia.</p>
+      <div class="cat-price">R$ 3.900,00</div>
+      <ul class="cat-features">
+        <li>Até 15 páginas</li>
+        <li>Design exclusivo</li>
+        <li>SEO otimizado</li>
+        <li>Domínio + hospedagem 1 ano</li>
+        <li>Suporte 30 dias</li>
+      </ul>
+      <a href="rd-site-institucional.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
+    </div>
+
+    <div class="price-cat-card featured fade-in">
+      <div class="cat-icon">🎯</div>
+      <div class="cat-title">Landing Page</div>
+      <p class="cat-desc">Alta conversão. Ideal para campanhas e lançamentos.</p>
+      <div class="cat-price">R$ 1.400,00</div>
+      <ul class="cat-features">
+        <li>Copywriting incluso</li>
+        <li>Design focado em conversão</li>
+        <li>WhatsApp + formulário</li>
+        <li>Pixel FB + Google Tag</li>
+        <li>Entrega em 3 dias</li>
+      </ul>
+      <a href="rd-landing-page.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
+    </div>
+
+    <div class="price-cat-card fade-in">
+      <div class="cat-icon">🛒</div>
+      <div class="cat-title">Loja Virtual</div>
+      <p class="cat-desc">E-commerce completo para vender todos os dias.</p>
+      <div class="cat-price">R$ 6.900,00</div>
+      <ul class="cat-features">
+        <li>Até 50 produtos</li>
+        <li>Pix + Cartão + Boleto</li>
+        <li>Painel administrativo</li>
+        <li>Controle de estoque</li>
+        <li>Frete automático</li>
+      </ul>
+      <a href="rd-loja-virtual.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
+    </div>
+
+  </div>
+
+  <!-- Tabela completa com todos os serviços -->
+  <div class="table-section-title fade-in">Todos os serviços</div>
+
+  <table class="pricing-table fade-in">
+    <thead>
+      <tr><th>Serviço</th><th>Preço</th></tr>
+    </thead>
+    <tbody>
+      <tr onclick="location.href='rd-site-institucional.html'">
+        <td><div class="row-content">🌐 Site Institucional (até 15 páginas)<span class="row-arrow">→</span></div></td>
+        <td>R$ 3.900,00</td>
+      </tr>
+      <tr onclick="location.href='rd-loja-virtual.html'">
+        <td><div class="row-content">🛒 Loja Virtual (até 50 produtos)<span class="row-arrow">→</span></div></td>
+        <td>R$ 6.900,00</td>
+      </tr>
+      <tr onclick="location.href='rd-landing-page.html'" class="highlight">
+        <td><div class="row-content">🎯 Landing Page<span class="row-arrow">→</span></div></td>
+        <td>R$ 1.400,00</td>
+      </tr>
+      <tr onclick="location.href='rd-logotipo.html'">
+        <td><div class="row-content">✏️ Logotipo + Identidade Visual<span class="row-arrow">→</span></div></td>
+        <td>R$ 950,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">📧 Assinatura de E-mail Profissional<span class="row-arrow">→</span></div></td>
+        <td>R$ 280,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">📍 Cadastro no Google Meu Negócio<span class="row-arrow">→</span></div></td>
+        <td>R$ 750,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">💳 Cartão de Visitas Digital<span class="row-arrow">→</span></div></td>
+        <td>R$ 240,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">🔧 Atualização de Site Existente<span class="row-arrow">→</span></div></td>
+        <td>R$ 420,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">🖨️ Cartão de Visitas Impresso (1.000 un.)<span class="row-arrow">→</span></div></td>
+        <td>R$ 570,00</td>
+      </tr>
+      <tr onclick="location.href='index.html#contact'">
+        <td><div class="row-content">📖 Manuais (até 28 páginas)<span class="row-arrow">→</span></div></td>
+        <td>R$ 4.500,00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Nota de transparência -->
+  <div class="transparency-note fade-in">
+    <div class="transparency-note-icon">💡</div>
+    <div>
+      <div class="transparency-note-title">Sobre os preços</div>
+      <p class="transparency-note-text">
+        Todos os valores são fixos e negociados antes do início do projeto.
+        Não cobro por revisões básicas, ajustes de conteúdo ou funcionalidades que já deveriam estar inclusas.
+        Caso o escopo do projeto mude durante o desenvolvimento, combinamos o valor extra com antecedência — sempre com sua aprovação.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="price-cta">
+  <div class="cta-box fade-in">
+    <div class="section-label" style="text-align:center">Ficou com dúvidas?</div>
+    <h2 class="section-title">Vamos conversar<br>sem compromisso</h2>
+    <p>Me manda uma mensagem no WhatsApp e te dou um orçamento personalizado em até 2 horas.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/5511996523787?text=Olá! Gostaria de um orçamento para um projeto." target="_blank" class="btn-primary">✦ Falar no WhatsApp</a>
+      <a href="mailto:rychardsilva205@gmail.com?subject=Orçamento RD Webdesign" class="btn-secondary">Enviar e-mail →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RODAPÉ ===== -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+    <span class="footer-copy">© 2025 RD Webdesign – Todos os direitos reservados</span>
+  </div>
+  <div class="footer-links">
+    <a href="index.html#services">Serviços</a>
+    <a href="precos.html">Preços</a>
+    <a href="index.html#portfolio">Portfólio</a>
+    <a href="index.html#contact">Contato</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511996523787" target="_blank" title="Fale no WhatsApp">💬</a>
+
+<script src="js/main.js"></script>
+</body>
+</html>

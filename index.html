@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RD Webdesign – Sites que vendem enquanto você dorme</title>
+  <meta name="description" content="Criamos sites profissionais, landing pages e lojas virtuais que geram resultados reais. Entrega rápida, resultado garantido.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── HERO ─────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      /* Mesmo padding adaptativo que as seções */
+      padding: 120px max(6%, calc(50vw - 700px)) 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(26,127,240,.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(26,127,240,.07) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(26,127,240,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,240,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 640px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,240,.12);
+      border: 1px solid rgba(26,127,240,.3);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: .78rem; font-weight: 600; color: var(--blue-light);
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: 28px;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue); animation: pulse 2s infinite;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 24px; letter-spacing: -.02em;
+    }
+
+    .hero-title .accent { color: var(--blue); }
+
+    .hero-title .line2 {
+      display: block; color: var(--gray-light);
+      font-size: .72em; font-weight: 700; margin-top: 6px;
+    }
+
+    .hero-sub {
+      font-size: clamp(.95rem, 1.1vw, 1.08rem);
+      color: var(--gray); line-height: 1.7;
+      margin-bottom: 40px; max-width: 500px;
+    }
+
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* Stats honestos abaixo dos botões */
+    .hero-stats {
+      display: flex; gap: 40px;
+      margin-top: 56px; padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      flex-wrap: wrap;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 2.2vw, 2rem);
+      font-weight: 800;
+    }
+
+    .stat-num span { color: var(--blue); }
+    .stat-label { font-size: .8rem; color: var(--gray); margin-top: 2px; }
+
+    /* Cards flutuantes do hero (desktop) */
+    .hero-visual {
+      position: absolute; right: max(6%, calc(50vw - 700px));
+      top: 50%; transform: translateY(-50%); z-index: 1;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .float-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 20px 24px; width: 280px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      animation: floatY 4s ease-in-out infinite;
+    }
+
+    .float-card:nth-child(2) { animation-delay: -2s; margin-left: 30px; }
+
+    .card-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--blue-glow);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px; font-size: 1.2rem;
+    }
+
+    .card-title { font-size: .82rem; font-weight: 700; margin-bottom: 4px; }
+    .card-sub   { font-size: .72rem; color: var(--gray); }
+
+    .card-bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.08); margin-top: 14px; overflow: hidden; }
+    .card-bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      animation: barGrow 2s ease forwards;
+    }
+
+    /* ── SERVIÇOS ─────────────────────────────────────── */
+    #services { background: var(--dark2); }
+
+    .services-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 56px;
+      flex-wrap: wrap; gap: 24px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius); padding: 32px 28px;
+      transition: all .3s; position: relative; overflow: hidden;
+      cursor: pointer; text-decoration: none; display: block; color: inherit;
+    }
+
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(26,127,240,.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.3);
+    }
+
+    .service-card:hover::before { opacity: 1; }
+
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--blue-glow);
+      border: 1px solid rgba(26,127,240,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
+    }
+
+    .service-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .service-desc  { font-size: .88rem; color: var(--gray); line-height: 1.7; margin-bottom: 20px; }
+    .service-price { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--blue); margin-bottom: 16px; }
+
+    .service-features { list-style: none; }
+    .service-features li {
+      font-size: .82rem; color: var(--gray-light);
+      padding: 5px 0; display: flex; align-items: center; gap: 8px;
+    }
+    .service-features li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+    .service-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 20px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: .82rem; font-weight: 700; color: var(--blue);
+    }
+
+    /* ── PORTFÓLIO ────────────────────────────────────── */
+    #portfolio { background: var(--dark2); }
+
+    .portfolio-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 48px;
+      flex-wrap: wrap; gap: 24px;
+    }
+
+    /* Grid de 3 colunas para os projetos reais */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Cada card de projeto real */
+    .proj-real {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      overflow: hidden; position: relative; cursor: pointer;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+
+    .proj-real:hover {
+      border-color: rgba(26,127,240,.4);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0,0,0,.4);
+    }
+
+    .proj-real:hover .proj-overlay { opacity: 1; }
+
+    /* Área de preview do iframe */
+    .proj-frame-container {
+      position: relative;
+      width: 100%;
+      height: 240px; /* Ajustado dinamicamente pelo JS */
+      overflow: hidden;
+      background: var(--dark4);
+    }
+
+    /* Escalador interno: o iframe tem largura real de 1440px e é reduzido via transform */
+    .proj-frame-scaler {
+      position: absolute;
+      top: 0; left: 0;
+      width: 1440px;
+      height: 900px;
+      transform-origin: top left;
+      pointer-events: none; /* Impede clique acidental no iframe */
+    }
+
+    .proj-frame-scaler iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .proj-real-info {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .proj-real-tag { font-size: .7rem; color: var(--blue); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+    .proj-real-title { font-size: .98rem; font-weight: 700; }
+
+    .proj-overlay {
+      position: absolute; inset: 0;
+      background: rgba(13,15,20,.88);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s; gap: 10px;
+    }
+
+    .proj-overlay-tag   { font-size: .72rem; color: var(--blue); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .proj-overlay-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
+
+    .proj-overlay-btn {
+      margin-top: 10px; padding: 10px 24px;
+      background: var(--blue); border-radius: 8px;
+      font-size: .85rem; font-weight: 700; color: #fff;
+      text-decoration: none; transition: background .2s;
+    }
+
+    .proj-overlay-btn:hover { background: var(--blue-light); }
+
+    /* ── PROCESSO ─────────────────────────────────────── */
+    #process { background: var(--dark); }
+
+    .process-header { text-align: center; margin-bottom: 64px; }
+    .process-header .section-sub { margin: 0 auto; }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0; position: relative;
+    }
+
+    .process-steps::before {
+      content: ''; position: absolute;
+      top: 36px; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .process-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; }
+
+    .step-num {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2px solid var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800;
+      color: var(--blue); background: var(--dark);
+      margin-bottom: 24px; position: relative; z-index: 1;
+      box-shadow: 0 0 30px rgba(26,127,240,.2);
+    }
+
+    .step-title  { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step-desc   { font-size: .82rem; color: var(--gray); line-height: 1.6; }
+    .step-emoji  { font-size: 1.6rem; margin-bottom: 4px; }
+
+    /* ── COMPROMETIMENTO (substituiu depoimentos) ─────── */
+    #proof { background: var(--dark2); }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+
+    .proof-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius); padding: 32px 28px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .proof-card:hover { border-color: rgba(26,127,240,.35); transform: translateY(-4px); }
+
+    .commitment-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .commitment-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .proof-text { font-size: .9rem; color: var(--gray); line-height: 1.7; }
+
+    /* ── CONTATO ──────────────────────────────────────── */
+    #contact {
+      background: var(--dark);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .contact-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--blue-glow); border: 1px solid rgba(26,127,240,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .contact-label { font-size: .75rem; color: var(--gray); margin-bottom: 3px; }
+    .contact-value { font-size: .95rem; font-weight: 600; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: .78rem; font-weight: 600; color: var(--gray-light); letter-spacing: .05em; }
+
+    .form-input, .form-select, .form-textarea {
+      background: var(--dark4);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px; padding: 12px 16px;
+      color: var(--white); font-family: 'Inter', sans-serif;
+      font-size: .9rem; transition: border-color .2s; outline: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,127,240,.1); }
+
+    .form-textarea  { resize: vertical; min-height: 120px; }
+    .form-select option { background: var(--dark4); }
+
+    .btn-submit {
+      background: var(--blue); color: #fff; padding: 15px 32px;
+      border-radius: 10px; font-family: 'Inter', sans-serif;
+      font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
+      transition: all .2s; box-shadow: 0 4px 24px rgba(26,127,240,.35);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
+    .btn-submit:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+    /* ── RESPONSIVO ───────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 960px) {
+      .hero-visual { display: none; }
+      #contact { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      #hero { padding: 110px 5% 60px; }
+      .hero-stats { gap: 24px; }
+      .process-steps::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVEGAÇÃO ===== -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+  </a>
+
+  <button class="nav-toggle" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links">
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="precos.html">Preços</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#process">Processo</a></li>
+    <li><a href="#proof">Por que eu?</a></li>
+    <li><a href="#contact" class="nav-cta">Solicitar Orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Aceitando novos projetos
+    </div>
+
+    <h1 class="hero-title">
+      Sites que vendem<br>
+      <span class="accent">enquanto você dorme</span>
+      <span class="line2">Design que conecta. Soluções que geram resultados.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Criamos sites profissionais, landing pages de alta conversão e lojas virtuais para
+      empresas que querem crescer de verdade no digital. Entrega rápida, resultado garantido.
+    </p>
+
+    <div class="hero-actions">
+      <a href="servicos.html" class="btn-primary">✦ Quero meu site</a>
+      <a href="#portfolio" class="btn-secondary">Ver projetos →</a>
+    </div>
+
+    <!-- Stats honestos: sem números inflados -->
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">7<span>d</span></div>
+        <div class="stat-label">Prazo médio de entrega</div>
+      </div>
+      <div>
+        <div class="stat-num">R$<span>0</span></div>
+        <div class="stat-label">Taxas escondidas</div>
+      </div>
+      <div>
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Dedicação ao projeto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="float-card">
+      <div class="card-icon">🚀</div>
+      <div class="card-title">Performance otimizada</div>
+      <div class="card-sub">Site carregando em &lt;2s</div>
+      <div class="card-bar"><div class="card-bar-fill" style="--w:92%"></div></div>
+    </div>
+    <div class="float-card">
+      <div class="card-icon">📈</div>
+      <div class="card-title">Mais clientes online</div>
+      <div class="card-sub">Presença digital que converte</div>
+      <div class="card-bar"><div class="card-bar-fill" style="--w:78%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVIÇOS ===== -->
+<section id="services">
+  <div class="services-header fade-in">
+    <div>
+      <div class="section-label">O que oferecemos</div>
+      <h2 class="section-title">Clique e saiba mais<br>sobre cada serviço</h2>
+    </div>
+    <p class="section-sub">Cada projeto é desenvolvido com foco em conversão, velocidade e experiência do usuário.</p>
+  </div>
+
+  <div class="services-grid">
+    <a href="rd-site-institucional.html" class="service-card fade-in">
+      <div class="service-icon">🌐</div>
+      <div class="service-title">Site Institucional</div>
+      <p class="service-desc">Presença digital profissional que transmite credibilidade e atrai novos clientes 24h por dia.</p>
+      <div class="service-price">R$ 3.900,00</div>
+      <ul class="service-features">
+        <li>Até 15 páginas</li>
+        <li>Design exclusivo e responsivo</li>
+        <li>SEO otimizado</li>
+        <li>Domínio e hospedagem incluso</li>
+      </ul>
+      <div class="service-cta">Saiba mais e garanta já <span>→</span></div>
+    </a>
+
+    <a href="rd-landing-page.html" class="service-card fade-in">
+      <div class="service-icon">🎯</div>
+      <div class="service-title">Landing Page</div>
+      <p class="service-desc">Página de alta conversão focada em transformar visitantes em clientes e leads qualificados.</p>
+      <div class="service-price">R$ 1.400,00</div>
+      <ul class="service-features">
+        <li>Copywriting incluso</li>
+        <li>Formulário de captura</li>
+        <li>Integração com WhatsApp</li>
+        <li>Entrega em 3 dias</li>
+      </ul>
+      <div class="service-cta">Saiba mais e garanta já <span>→</span></div>
+    </a>
+
+    <a href="rd-loja-virtual.html" class="service-card fade-in">
+      <div class="service-icon">🛒</div>
+      <div class="service-title">Loja Virtual</div>
+      <p class="service-desc">E-commerce completo para você vender todos os dias. Integrado com Pix, cartão e boleto.</p>
+      <div class="service-price">R$ 6.900,00</div>
+      <ul class="service-features">
+        <li>Até 50 produtos</li>
+        <li>Pagamentos integrados</li>
+        <li>Painel administrativo</li>
+        <li>Gestão de estoque</li>
+      </ul>
+      <div class="service-cta">Saiba mais e garanta já <span>→</span></div>
+    </a>
+
+    <a href="rd-logotipo.html" class="service-card fade-in">
+      <div class="service-icon">✏️</div>
+      <div class="service-title">Logotipo</div>
+      <p class="service-desc">Identidade visual profissional que diferencia sua marca e gera reconhecimento no mercado.</p>
+      <div class="service-price">R$ 950,00</div>
+      <ul class="service-features">
+        <li>3 conceitos iniciais</li>
+        <li>Revisões incluídas</li>
+        <li>Arquivos vetoriais</li>
+        <li>Manual de marca</li>
+      </ul>
+      <div class="service-cta">Saiba mais e garanta já <span>→</span></div>
+    </a>
+
+    <a href="#contact" class="service-card fade-in">
+      <div class="service-icon">⚡</div>
+      <div class="service-title">Outros Serviços</div>
+      <p class="service-desc">Google Meu Negócio, Cartão Digital, Atualização de Sites, Assinatura de E-mail e mais.</p>
+      <div class="service-price" style="font-size:1rem">A partir de R$ 240,00</div>
+      <ul class="service-features">
+        <li>Cadastro Google Meu Negócio</li>
+        <li>Cartão de visitas digital</li>
+        <li>Atualização de sites</li>
+        <li>Assinatura de e-mail</li>
+      </ul>
+      <div class="service-cta">Fale conosco <span>→</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== PORTFÓLIO ===== -->
+<section id="portfolio">
+  <div class="portfolio-header fade-in">
+    <div>
+      <div class="section-label">Portfólio</div>
+      <h2 class="section-title">Veja meus projetos<br>na prática</h2>
+    </div>
+    <a href="#contact" class="btn-primary">Quero um projeto assim →</a>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <!-- Projeto 1: Landing Page Marketing Criativo -->
+    <div class="proj-real fade-in">
+      <div class="proj-frame-container">
+        <div class="proj-frame-scaler">
+          <iframe src="../estudos/landing_page/index.html"
+                  scrolling="no"
+                  title="Landing Page – Marketing Criativo"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="proj-real-info">
+        <div class="proj-real-tag">Landing Page</div>
+        <div class="proj-real-title">Marketing Criativo – Newsletter</div>
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-overlay-tag">LANDING PAGE • NEWSLETTER</div>
+        <div class="proj-overlay-title">Marketing Criativo</div>
+        <a href="../estudos/landing_page/index.html" target="_blank" class="proj-overlay-btn">Ver projeto →</a>
+      </div>
+    </div>
+
+    <!-- Projeto 2: Landing Page Restaurante -->
+    <div class="proj-real fade-in">
+      <div class="proj-frame-container">
+        <div class="proj-frame-scaler">
+          <iframe src="../estudos/landing_page_restaurante/index.html"
+                  scrolling="no"
+                  title="Landing Page – Restaurante"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="proj-real-info">
+        <div class="proj-real-tag">Landing Page</div>
+        <div class="proj-real-title">Restaurante FOOD</div>
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-overlay-tag">LANDING PAGE • RESTAURANTE</div>
+        <div class="proj-overlay-title">Restaurante FOOD</div>
+        <a href="../estudos/landing_page_restaurante/index.html" target="_blank" class="proj-overlay-btn">Ver projeto →</a>
+      </div>
+    </div>
+
+    <!-- Projeto 3: Login Form -->
+    <div class="proj-real fade-in">
+      <div class="proj-frame-container">
+        <div class="proj-frame-scaler">
+          <iframe src="../estudos/login_form/index.html"
+                  scrolling="no"
+                  title="UI – Login Form"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="proj-real-info">
+        <div class="proj-real-tag">UI Design</div>
+        <div class="proj-real-title">Login Form</div>
+      </div>
+      <div class="proj-overlay">
+        <div class="proj-overlay-tag">UI DESIGN • FORMULÁRIO</div>
+        <div class="proj-overlay-title">Login Form</div>
+        <a href="../estudos/login_form/index.html" target="_blank" class="proj-overlay-btn">Ver projeto →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== PROCESSO ===== -->
+<section id="process">
+  <div class="process-header fade-in">
+    <div class="section-label">Como funciona</div>
+    <h2 class="section-title">Do briefing ao ar em menos de 7 dias</h2>
+    <p class="section-sub">Processo simples, transparente e sem burocracia para você.</p>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step fade-in">
+      <div class="step-num">01</div>
+      <div class="step-emoji">💬</div>
+      <div class="step-title">Briefing</div>
+      <p class="step-desc">Conversa inicial pelo WhatsApp para entender seu negócio e objetivos.</p>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">02</div>
+      <div class="step-emoji">🎨</div>
+      <div class="step-title">Design</div>
+      <p class="step-desc">Criamos o layout exclusivo e enviamos para sua aprovação.</p>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">03</div>
+      <div class="step-emoji">⚙️</div>
+      <div class="step-title">Desenvolvimento</div>
+      <p class="step-desc">Desenvolvemos rápido, seguro e responsivo para todos os dispositivos.</p>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">04</div>
+      <div class="step-emoji">🚀</div>
+      <div class="step-title">Entrega</div>
+      <p class="step-desc">Publicamos e acompanhamos os primeiros 30 dias gratuitamente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POR QUE A RD WEBDESIGN? ===== -->
+<!--
+  Substituímos depoimentos falsos por comprometimentos reais.
+  Transparência é o diferencial de quem está começando.
+-->
+<section id="proof">
+  <div class="fade-in">
+    <div class="section-label">Por que a RD Webdesign?</div>
+    <h2 class="section-title">Transparência e resultado<br>como prioridade</h2>
+    <p class="section-sub">
+      Estou no início da minha trajetória como freelancer. Meu diferencial é simples:
+      atenção total ao seu projeto e honestidade do início ao fim.
+    </p>
+  </div>
+
+  <div class="proof-grid">
+    <div class="proof-card fade-in">
+      <div class="commitment-icon">🎯</div>
+      <div class="commitment-title">Atenção exclusiva no seu projeto</div>
+      <p class="proof-text">Não trabalho com dezenas de clientes ao mesmo tempo. Quando o projeto é seu, é 100% meu — sem terceirizações, sem equipes genéricas. Você recebe foco real.</p>
+    </div>
+
+    <div class="proof-card fade-in">
+      <div class="commitment-icon">💰</div>
+      <div class="commitment-title">Preço fechado, sem surpresas</div>
+      <p class="proof-text">O valor combinado no início é o valor que você paga no final. Sem cobrar por ajustes básicos, revisões obrigatórias ou funcionalidades que já deveriam estar inclusas.</p>
+    </div>
+
+    <div class="proof-card fade-in">
+      <div class="commitment-icon">📱</div>
+      <div class="commitment-title">Comunicação direta e humana</div>
+      <p class="proof-text">Você fala comigo diretamente pelo WhatsApp — não com assistente, secretária ou formulário. Atualização constante, resposta rápida e clareza em cada etapa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTATO ===== -->
+<section id="contact">
+  <div class="contact-info fade-in">
+    <div class="section-label">Vamos conversar</div>
+    <h2 class="section-title">Pronto para ter um site que vende de verdade?</h2>
+    <p class="section-sub" style="margin-bottom:40px">Preencha o formulário ou me chame direto no WhatsApp. Respondo em até 2 horas.</p>
+
+    <div class="contact-item">
+      <div class="contact-icon">📱</div>
+      <div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-value">(11) 99652-3787</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">📧</div>
+      <div>
+        <div class="contact-label">E-mail</div>
+        <div class="contact-value">rychardsilva205@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">⏰</div>
+      <div>
+        <div class="contact-label">Horário de atendimento</div>
+        <div class="contact-value">Seg–Sex, 9h às 18h</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form fade-in">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Seu nome</label>
+        <input class="form-input" name="nome" type="text" placeholder="João Silva">
+      </div>
+      <div class="form-group">
+        <label class="form-label">WhatsApp</label>
+        <input class="form-input" type="tel" placeholder="(11) 99999-0000">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" placeholder="joao@empresa.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">O que você precisa?</label>
+      <select class="form-select" name="servico">
+        <option value="" disabled selected>Selecione um serviço</option>
+        <option>Site Institucional – R$ 3.900</option>
+        <option>Landing Page – R$ 1.400</option>
+        <option>Loja Virtual – R$ 6.900</option>
+        <option>Logotipo – R$ 950</option>
+        <option>Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Conte sobre o projeto</label>
+      <textarea class="form-textarea" name="mensagem" placeholder="Descreva seu negócio e o que espera do site..."></textarea>
+    </div>
+
+    <button class="btn-submit">Enviar pelo WhatsApp ✦</button>
+  </div>
+</section>
+
+<!-- ===== RODAPÉ ===== -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+    <span class="footer-copy">© 2025 RD Webdesign – Todos os direitos reservados</span>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Serviços</a>
+    <a href="precos.html">Preços</a>
+    <a href="#portfolio">Portfólio</a>
+    <a href="#contact">Contato</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511996523787" target="_blank" title="Fale no WhatsApp">💬</a>
+
+<script src="js/main.js"></script>
+<script>
+  /* ── Escala os iframes do portfólio para caber nos cards ── */
+  function scalePortfolioFrames() {
+    document.querySelectorAll('.proj-frame-container').forEach(container => {
+      const scaler = container.querySelector('.proj-frame-scaler');
+      if (!scaler) return;
+      const scale = container.offsetWidth / 1440;
+      scaler.style.transform = `scale(${scale})`;
+      container.style.height = Math.ceil(900 * scale) + 'px';
+    });
+  }
+
+  scalePortfolioFrames();
+  window.addEventListener('resize', scalePortfolioFrames);
+</script>
+</body>
+</html>

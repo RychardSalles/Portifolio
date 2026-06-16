@@ -1,0 +1,293 @@
+/* ============================================================
+   STYLE.CSS — Estilos globais do site RD Webdesign
+   Compartilhado por todas as páginas
+   ============================================================ */
+
+/* ---------- Reset e Variáveis ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue:        #1A7FF0;
+  --blue-light:  #3D9BFF;
+  --blue-glow:   rgba(26, 127, 240, 0.18);
+  --dark:        #0D0F14;
+  --dark2:       #13161D;
+  --dark3:       #1A1E28;
+  --dark4:       #222736;
+  --gray:        #8A92A6;
+  --gray-light:  #C2C8D8;
+  --white:       #FFFFFF;
+  --radius:      14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ---------- Logo texto (substitui imagem) ---------- */
+.logo-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.logo-text span { color: var(--blue); }
+
+/* ---------- Navegação ---------- */
+/*
+  max(6%, calc(50vw - 700px)) garante que o conteúdo fique centralizado
+  com no máximo ~1400px de largura em monitores grandes (28"+)
+*/
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px max(6%, calc(50vw - 700px));
+  background: rgba(13, 15, 20, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: padding .3s;
+}
+
+nav.scrolled { padding: 10px max(6%, calc(50vw - 700px)); }
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* Links do menu */
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--gray-light);
+  font-size: .88rem;
+  font-weight: 500;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--blue); }
+
+/* Botão de CTA no menu */
+.nav-cta {
+  background: var(--blue) !important;
+  color: #fff !important;
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  transition: background .2s, transform .15s !important;
+}
+
+.nav-cta:hover {
+  background: var(--blue-light) !important;
+  transform: translateY(-1px);
+}
+
+/* Menu hamburguer (mobile) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all .3s;
+}
+
+/* ---------- Seções ---------- */
+/* O padding lateral usa max() para nunca deixar o conteúdo ultrapassar ~1400px */
+section { padding: 100px max(6%, calc(50vw - 700px)); }
+
+.section-label {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  color: var(--gray);
+  font-size: clamp(.9rem, 1.1vw, 1.05rem);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+/* ---------- Botões ---------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: all .2s;
+  box-shadow: 0 4px 24px rgba(26, 127, 240, .35);
+}
+
+.btn-primary:hover {
+  background: var(--blue-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(26, 127, 240, .45);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .15);
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: all .2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ---------- Rodapé ---------- */
+footer {
+  background: var(--dark);
+  padding: 40px max(6%, calc(50vw - 700px));
+  border-top: 1px solid rgba(255, 255, 255, .05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-copy { font-size: .8rem; color: var(--gray); }
+
+.footer-links { display: flex; gap: 24px; }
+
+.footer-links a {
+  font-size: .8rem;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.footer-links a:hover { color: var(--blue); }
+
+/* ---------- Botão flutuante do WhatsApp ---------- */
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, .4);
+  text-decoration: none;
+  font-size: 1.6rem;
+  transition: transform .2s;
+}
+
+.wa-float:hover { transform: scale(1.1); }
+
+/* ---------- Animações gerais ---------- */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .5; transform: scale(1.4); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+  to   { width: var(--w); }
+}
+
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+
+  /* Menu aberto no mobile */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    background: var(--dark2);
+    padding: 24px 6%;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+}
+
+@media (max-width: 600px) {
+  nav { padding: 14px 5%; }
+  nav.scrolled { padding: 10px 5%; }
+  section { padding: 72px 5%; }
+  footer { padding: 32px 5%; flex-direction: column; align-items: flex-start; }
+}

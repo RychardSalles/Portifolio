@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logotipo & Identidade Visual – RD Webdesign</title>
+  <meta name="description" content="Logotipo profissional com identidade visual completa. 3 conceitos, arquivos vetoriais e manual de marca. R$ 950.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Hero ───────────────────────────────────────────── */
+    #logo-hero {
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding: 130px max(6%, calc(50vw - 700px)) 80px;
+      position: relative; overflow: hidden; gap: 60px;
+    }
+
+    .logo-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 78% 45%, rgba(26,127,240,.13) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 5% 85%, rgba(26,127,240,.06) 0%, transparent 55%);
+    }
+
+    .logo-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(26,127,240,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,240,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .logo-hero-content { position: relative; z-index: 1; flex: 1; max-width: 580px; }
+
+    .svc-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gray); font-size: .82rem; text-decoration: none;
+      margin-bottom: 28px; transition: color .2s;
+    }
+    .svc-back:hover { color: var(--blue); }
+
+    .svc-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,240,.12); border: 1px solid rgba(26,127,240,.3);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: .75rem; font-weight: 700; color: var(--blue-light);
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px;
+    }
+
+    .logo-hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+    }
+
+    .logo-hero-title span { color: var(--blue); }
+    .logo-hero-sub { color: var(--gray); font-size: 1.05rem; line-height: 1.75; margin-bottom: 36px; max-width: 480px; }
+    .logo-hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+    .guarantees { display: flex; gap: 24px; flex-wrap: wrap; }
+    .guarantee  { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--gray-light); }
+
+    /* Visual: showcase de logos */
+    .logo-hero-visual {
+      position: relative; z-index: 1; flex: 1; max-width: 460px;
+    }
+
+    .logo-showcase {
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .logo-variation {
+      border-radius: 14px; padding: 24px 28px;
+      display: flex; align-items: center; gap: 20px;
+      border: 1px solid rgba(255,255,255,.07);
+      animation: floatY 5s ease-in-out infinite;
+    }
+
+    .logo-variation:nth-child(2) { animation-delay: -2.5s; }
+    .logo-variation:nth-child(3) { animation-delay: -1.2s; }
+
+    .var-dark  { background: var(--dark3); }
+    .var-light { background: #f0f4ff; border-color: rgba(0,0,0,.08); }
+    .var-blue  { background: var(--blue); border-color: rgba(255,255,255,.15); }
+
+    .logo-symbol {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .sym-dark  { background: var(--blue); color: #fff; }
+    .sym-light { background: var(--blue); color: #fff; }
+    .sym-white { background: rgba(255,255,255,.2); color: #fff; }
+
+    .logo-text-demo { flex: 1; }
+    .logo-name-demo { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; }
+    .logo-tag-demo  { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; margin-top: 2px; }
+
+    .name-dark  { color: var(--white); }
+    .tag-dark   { color: var(--gray); }
+    .name-light { color: #1a1e28; }
+    .tag-light  { color: #6b7280; }
+    .name-white { color: #fff; }
+    .tag-white  { color: rgba(255,255,255,.7); }
+
+    .var-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; border-radius: 6px; padding: 4px 8px;
+    }
+
+    .label-dark  { color: var(--gray); background: rgba(255,255,255,.06); }
+    .label-light { color: #4b5563; background: rgba(0,0,0,.07); }
+    .label-blue  { color: rgba(255,255,255,.8); background: rgba(255,255,255,.15); }
+
+    /* ── Por que investir em logo ─────────────────────── */
+    #why-logo { background: var(--dark2); padding: 80px 6%; }
+
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+
+    .why-card {
+      background: var(--dark3); border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius); padding: 32px 26px; transition: all .3s;
+    }
+
+    .why-card:hover { border-color: rgba(26,127,240,.35); transform: translateY(-5px); }
+    .why-icon  { font-size: 2rem; margin-bottom: 16px; }
+    .why-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .why-desc  { font-size: .85rem; color: var(--gray); line-height: 1.65; }
+
+    /* ── Incluso + Preço ─────────────────────────────────── */
+    #logo-whats-in {
+      background: var(--dark); padding: 80px 6%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .includes-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+
+    .include-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px 20px; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.05); border-radius: 12px;
+    }
+
+    .include-check {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(26,127,240,.15); border: 1px solid rgba(26,127,240,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0; color: var(--blue);
+    }
+
+    .include-text strong { font-size: .9rem; display: block; margin-bottom: 2px; }
+    .include-text span   { font-size: .78rem; color: var(--gray); }
+
+    .price-box {
+      background: var(--dark3); border: 1px solid rgba(26,127,240,.25);
+      border-radius: 20px; padding: 40px 36px; position: sticky; top: 100px;
+    }
+
+    .price-label { font-size: .75rem; color: var(--gray); margin-bottom: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .price-value { font-family: 'Syne', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+    .price-note  { font-size: .82rem; color: var(--gray); margin-bottom: 28px; }
+
+    .price-items { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .price-item  { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--gray-light); }
+    .price-item::before { content: '✓'; color: var(--blue); font-weight: 700; }
+
+    .price-divider { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 24px 0; }
+
+    /* ── Processo ─────────────────────────────────────────── */
+    #logo-process { background: var(--dark2); padding: 80px 6%; }
+
+    .logo-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px; margin-top: 48px; position: relative;
+    }
+
+    .logo-steps::before {
+      content: ''; position: absolute;
+      top: 32px; left: 8%; right: 8%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .logo-step { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+    .logo-step-num {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+      color: var(--blue); background: var(--dark2);
+      margin-bottom: 16px; position: relative; z-index: 1;
+    }
+
+    .logo-step-title { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+    .logo-step-desc  { font-size: .8rem; color: var(--gray); line-height: 1.6; }
+
+    /* ── FAQ ─────────────────────────────────────────────── */
+    #logo-faq { background: var(--dark); padding: 80px 6%; }
+
+    .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+
+    .faq-item {
+      background: var(--dark3); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px; overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; cursor: pointer;
+      font-size: .92rem; font-weight: 600; user-select: none; transition: color .2s;
+    }
+
+    .faq-question:hover { color: var(--blue); }
+    .faq-icon { font-size: 1.2rem; color: var(--blue); transition: transform .3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .35s;
+      font-size: .88rem; color: var(--gray); line-height: 1.7; padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
+
+    /* ── CTA final ───────────────────────────────────────── */
+    #logo-cta { background: var(--dark2); padding: 100px 6%; text-align: center; }
+
+    .cta-box {
+      max-width: 680px; margin: 0 auto;
+      background: linear-gradient(135deg, rgba(26,127,240,.12), rgba(26,127,240,.04));
+      border: 1px solid rgba(26,127,240,.25); border-radius: 24px; padding: 60px 48px;
+    }
+
+    .cta-box .section-title { margin-bottom: 12px; }
+    .cta-box p { color: var(--gray); font-size: 1rem; line-height: 1.7; margin-bottom: 32px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 960px) {
+      #logo-hero    { flex-direction: column; }
+      .logo-hero-visual { max-width: 100%; }
+      #logo-whats-in { grid-template-columns: 1fr; gap: 48px; }
+      .price-box  { position: static; }
+      .logo-steps::before { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      #logo-hero { padding: 110px 4% 60px; }
+      #why-logo, #logo-whats-in, #logo-process, #logo-faq, #logo-cta { padding: 60px 4%; }
+      .cta-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+  </a>
+  <button class="nav-toggle" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="servicos.html">Serviços</a></li>
+    <li><a href="index.html#pricing">Preços</a></li>
+    <li><a href="index.html#portfolio">Portfólio</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Solicitar Orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="logo-hero">
+  <div class="logo-hero-bg"></div>
+  <div class="logo-hero-grid"></div>
+
+  <div class="logo-hero-content">
+    <a href="servicos.html" class="svc-back">← Voltar para serviços</a>
+    <div class="svc-badge">✏️ Logotipo & Identidade Visual</div>
+
+    <h1 class="logo-hero-title">
+      Sua marca com uma<br><span>identidade que impõe</span><br>respeito
+    </h1>
+
+    <p class="logo-hero-sub">
+      Um logotipo profissional é o primeiro passo para ser levado a sério.
+      Criamos marcas que ficam na memória, geram confiança e se destacam da concorrência.
+    </p>
+
+    <div class="logo-hero-actions">
+      <a href="https://wa.me/5511996523787?text=Olá! Quero contratar um Logotipo." target="_blank" class="btn-primary">✦ Contratar agora – R$ 950</a>
+      <a href="#logo-whats-in" class="btn-secondary">Ver o que está incluso →</a>
+    </div>
+
+    <div class="guarantees">
+      <div class="guarantee"><span>✅</span> 3 conceitos iniciais</div>
+      <div class="guarantee"><span>✅</span> Arquivos vetoriais</div>
+      <div class="guarantee"><span>✅</span> Manual de marca incluso</div>
+    </div>
+  </div>
+
+  <!-- Variações de logo (mockup visual) -->
+  <div class="logo-hero-visual fade-in">
+    <div class="logo-showcase">
+      <div class="logo-variation var-dark">
+        <div class="logo-symbol sym-dark">RD</div>
+        <div class="logo-text-demo">
+          <div class="logo-name-demo name-dark">SUA EMPRESA</div>
+          <div class="logo-tag-demo tag-dark">Slogan da empresa aqui</div>
+        </div>
+        <span class="var-label label-dark">Fundo escuro</span>
+      </div>
+      <div class="logo-variation var-light">
+        <div class="logo-symbol sym-light">RD</div>
+        <div class="logo-text-demo">
+          <div class="logo-name-demo name-light">SUA EMPRESA</div>
+          <div class="logo-tag-demo tag-light">Slogan da empresa aqui</div>
+        </div>
+        <span class="var-label label-light">Fundo claro</span>
+      </div>
+      <div class="logo-variation var-blue">
+        <div class="logo-symbol sym-white">RD</div>
+        <div class="logo-text-demo">
+          <div class="logo-name-demo name-white">SUA EMPRESA</div>
+          <div class="logo-tag-demo tag-white">Slogan da empresa aqui</div>
+        </div>
+        <span class="var-label label-blue">Versão colorida</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POR QUE INVESTIR ===== -->
+<section id="why-logo">
+  <div class="section-label">Por que importa?</div>
+  <h2 class="section-title">Sua marca é o primeiro<br>contato com o cliente</h2>
+
+  <div class="why-grid">
+    <div class="why-card fade-in">
+      <div class="why-icon">🧠</div>
+      <div class="why-title">Fica na memória</div>
+      <p class="why-desc">Um logo bem feito é reconhecido em frações de segundo. Clientes lembram de você sem precisar ler o nome.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">🤝</div>
+      <div class="why-title">Gera confiança</div>
+      <p class="why-desc">Uma identidade visual profissional transmite seriedade e faz os clientes se sentirem seguros para comprar.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">🏆</div>
+      <div class="why-title">Diferencia da concorrência</div>
+      <p class="why-desc">Com um visual único e coerente, você se destaca no mercado e justifica cobrar mais pelo seu serviço.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">🔄</div>
+      <div class="why-title">Funciona em todos os lugares</div>
+      <p class="why-desc">Site, cartão, uniforme, embalagem, redes sociais — entregamos versões para cada aplicação.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INCLUSO + PREÇO ===== -->
+<section id="logo-whats-in">
+  <div>
+    <div class="section-label">O que está incluso</div>
+    <h2 class="section-title">Da ideia ao arquivo<br>pronto para usar</h2>
+    <p class="section-sub" style="margin-bottom:0">Não entregamos só uma imagem. Entregamos uma identidade visual completa.</p>
+
+    <ul class="includes-list">
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>3 conceitos iniciais diferentes</strong>
+          <span>Três direções criativas para você escolher a que mais representa sua marca.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Revisões inclusas até aprovação</strong>
+          <span>Ajustamos cores, tipografia e formas até você ficar satisfeito.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Arquivos vetoriais (AI, SVG, PDF)</strong>
+          <span>Formatos profissionais para impressão em qualquer tamanho sem perder qualidade.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Versões PNG com fundo transparente</strong>
+          <span>Para usar no site, WhatsApp, apresentações e redes sociais.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Variações (cor, P&B, fundo escuro e claro)</strong>
+          <span>Logo adaptado para cada contexto de uso.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Manual de marca (brand guidelines)</strong>
+          <span>Documento com as cores, fontes e regras de uso correto da identidade visual.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="price-box fade-in">
+    <div class="price-label">Investimento</div>
+    <div class="price-value">R$ 950,00</div>
+    <div class="price-note">Preço único. Todos os arquivos são seus.</div>
+
+    <ul class="price-items">
+      <li class="price-item">3 conceitos iniciais</li>
+      <li class="price-item">Revisões inclusas</li>
+      <li class="price-item">Arquivos AI, SVG, PDF, PNG</li>
+      <li class="price-item">Versões fundo escuro e claro</li>
+      <li class="price-item">P&B e colorido</li>
+      <li class="price-item">Manual de marca incluso</li>
+    </ul>
+
+    <hr class="price-divider">
+
+    <a href="https://wa.me/5511996523787?text=Olá! Quero contratar um Logotipo." target="_blank" class="btn-primary" style="width:100%;justify-content:center">
+      ✦ Quero meu logotipo
+    </a>
+
+    <p style="text-align:center;font-size:.78rem;color:var(--gray);margin-top:16px">📱 Respondemos em até 2 horas</p>
+  </div>
+</section>
+
+<!-- ===== PROCESSO ===== -->
+<section id="logo-process">
+  <div class="section-label">Como funciona</div>
+  <h2 class="section-title">Do briefing ao logo<br>em até 5 dias úteis</h2>
+
+  <div class="logo-steps">
+    <div class="logo-step fade-in">
+      <div class="logo-step-num">01</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">📝</div>
+      <div class="logo-step-title">Briefing</div>
+      <p class="logo-step-desc">Você responde sobre sua empresa, público, valores e referências visuais.</p>
+    </div>
+    <div class="logo-step fade-in">
+      <div class="logo-step-num">02</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">💡</div>
+      <div class="logo-step-title">3 Conceitos</div>
+      <p class="logo-step-desc">Enviamos 3 propostas criativas diferentes para sua avaliação.</p>
+    </div>
+    <div class="logo-step fade-in">
+      <div class="logo-step-num">03</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">✏️</div>
+      <div class="logo-step-title">Refinamento</div>
+      <p class="logo-step-desc">Você escolhe um conceito e ajustamos os detalhes até ficar perfeito.</p>
+    </div>
+    <div class="logo-step fade-in">
+      <div class="logo-step-num">04</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">📦</div>
+      <div class="logo-step-title">Entrega final</div>
+      <p class="logo-step-desc">Todos os arquivos + manual de marca entregues pelo Google Drive.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="logo-faq">
+  <div class="section-label">Dúvidas frequentes</div>
+  <h2 class="section-title">Perguntas mais comuns</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question">Quantas revisões estão incluídas? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Não limitamos o número de revisões. Trabalhamos até você estar satisfeito com o resultado. Porém, revisões que saem completamente do briefing original podem gerar custo adicional.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Posso usar o logo para imprimir em qualquer tamanho? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Sim! Entregamos em formato vetorial (AI e SVG), o que permite impressão em qualquer tamanho — de cartão de visitas a outdoor — sem perder qualidade.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Preciso ter alguma ideia do logo antes? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Não é obrigatório. Quanto mais informações você tiver (referências, cores favoritas, estilo), melhor. Mas se não tiver nada, o briefing que aplicamos ajuda a descobrir a direção certa.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">O logotipo fica sendo meu? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Sim! Após a aprovação e pagamento integral, todos os direitos do logotipo são transferidos para você. O arquivo é seu para sempre.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Posso usar o logo nas redes sociais? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Sim, e ainda entregamos versões em PNG com fundo transparente, no tamanho ideal para perfil de Instagram, WhatsApp e outras plataformas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="logo-cta">
+  <div class="cta-box fade-in">
+    <div class="section-label" style="text-align:center">Pronto para ter uma marca profissional?</div>
+    <h2 class="section-title">Sua identidade visual<br>começa aqui</h2>
+    <p>Entre em contato agora e vamos criar a marca que seu negócio merece.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/5511996523787?text=Olá! Quero contratar um Logotipo pela RD Webdesign." target="_blank" class="btn-primary">✦ Falar no WhatsApp</a>
+      <a href="mailto:rychardsilva205@gmail.com?subject=Orçamento Logotipo" class="btn-secondary">Enviar e-mail →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+    <span class="footer-copy">© 2025 RD Webdesign – Todos os direitos reservados</span>
+  </div>
+  <div class="footer-links">
+    <a href="servicos.html">Serviços</a>
+    <a href="index.html#pricing">Preços</a>
+    <a href="index.html#portfolio">Portfólio</a>
+    <a href="index.html#contact">Contato</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511996523787" target="_blank" title="Fale no WhatsApp">💬</a>
+
+<script src="js/main.js"></script>
+<script>
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

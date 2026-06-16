@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Pichau/Documents/estudos/**)",
+      "Read(//c/Users/Pichau/Documents/estudos/landing_page/**)",
+      "Read(//c/Users/Pichau/Documents/estudos/landing_page_restaurante/**)",
+      "Read(//c/Users/Pichau/Documents/estudos/login_form/**)"
+    ]
+  }
+}

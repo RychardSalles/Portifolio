@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page de Alta Conversão – RD Webdesign</title>
+  <meta name="description" content="Landing pages que transformam visitantes em clientes. Copywriting incluso, entrega em 3 dias. A partir de R$ 1.400.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Hero ───────────────────────────────────────────── */
+    #lp-hero {
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding: 130px max(6%, calc(50vw - 700px)) 80px;
+      position: relative; overflow: hidden; gap: 60px;
+    }
+
+    .lp-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 80% 40%, rgba(26,127,240,.13) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 5% 90%, rgba(26,127,240,.06) 0%, transparent 55%);
+    }
+
+    .lp-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(26,127,240,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,240,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .lp-hero-content { position: relative; z-index: 1; flex: 1; max-width: 580px; }
+
+    .svc-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gray); font-size: .82rem; text-decoration: none;
+      margin-bottom: 28px; transition: color .2s;
+    }
+    .svc-back:hover { color: var(--blue); }
+
+    .svc-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,240,.12); border: 1px solid rgba(26,127,240,.3);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: .75rem; font-weight: 700; color: var(--blue-light);
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px;
+    }
+
+    .lp-hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+    }
+
+    .lp-hero-title span { color: var(--blue); }
+
+    .lp-hero-sub {
+      color: var(--gray); font-size: 1.05rem;
+      line-height: 1.75; margin-bottom: 36px; max-width: 480px;
+    }
+
+    .lp-hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+
+    .guarantees { display: flex; gap: 24px; flex-wrap: wrap; }
+    .guarantee  { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--gray-light); }
+
+    /* Visual lado direito: funil de conversão */
+    .lp-hero-visual {
+      position: relative; z-index: 1; flex: 1; max-width: 460px;
+    }
+
+    .funnel-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px; padding: 28px; margin-bottom: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      display: flex; align-items: center; gap: 18px;
+    }
+
+    .funnel-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--blue-glow); border: 1px solid rgba(26,127,240,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+
+    .funnel-text strong { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 3px; }
+    .funnel-text span   { font-size: .78rem; color: var(--gray); }
+
+    .funnel-bar-wrap { height: 5px; background: rgba(255,255,255,.07); border-radius: 5px; margin-top: 10px; overflow: hidden; }
+    .funnel-bar { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--blue), var(--blue-light)); animation: barGrow 2s ease forwards; }
+
+    .funnel-result {
+      background: rgba(26,127,240,.12);
+      border: 1px solid rgba(26,127,240,.3);
+      border-radius: 12px; padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+      animation: floatY 4s ease-in-out infinite;
+    }
+
+    .result-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--blue); }
+    .result-label { font-size: .8rem; color: var(--gray-light); }
+
+    /* ── Diferencial ────────────────────────────────────── */
+    #why-lp { background: var(--dark2); padding: 80px 6%; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+
+    .why-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius); padding: 32px 26px;
+      transition: all .3s;
+    }
+
+    .why-card:hover { border-color: rgba(26,127,240,.35); transform: translateY(-5px); }
+
+    .why-icon  { font-size: 2rem; margin-bottom: 16px; }
+    .why-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .why-desc  { font-size: .85rem; color: var(--gray); line-height: 1.65; }
+
+    /* ── O que está incluso + preço ─────────────────────── */
+    #lp-whats-in {
+      background: var(--dark); padding: 80px 6%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .includes-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+
+    .include-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px 20px; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.05); border-radius: 12px;
+    }
+
+    .include-check {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(26,127,240,.15); border: 1px solid rgba(26,127,240,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; flex-shrink: 0; color: var(--blue);
+    }
+
+    .include-text strong { font-size: .9rem; display: block; margin-bottom: 2px; }
+    .include-text span   { font-size: .78rem; color: var(--gray); }
+
+    .price-box {
+      background: var(--dark3);
+      border: 1px solid rgba(26,127,240,.25);
+      border-radius: 20px; padding: 40px 36px;
+      position: sticky; top: 100px;
+    }
+
+    .price-label { font-size: .75rem; color: var(--gray); margin-bottom: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .price-value { font-family: 'Syne', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+    .price-note  { font-size: .82rem; color: var(--gray); margin-bottom: 28px; }
+
+    .price-items { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .price-item  { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--gray-light); }
+    .price-item::before { content: '✓'; color: var(--blue); font-weight: 700; }
+
+    .price-divider { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 24px 0; }
+
+    /* Badge "Mais Pedido" */
+    .popular-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(245,166,35,.15); border: 1px solid rgba(245,166,35,.3);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: .72rem; font-weight: 700; color: #F5A623;
+      margin-bottom: 20px;
+    }
+
+    /* ── Processo ────────────────────────────────────────── */
+    #lp-process { background: var(--dark2); padding: 80px 6%; }
+
+    .lp-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px; margin-top: 48px; position: relative;
+    }
+
+    .lp-steps::before {
+      content: ''; position: absolute;
+      top: 32px; left: 8%; right: 8%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .lp-step { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+    .lp-step-num {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+      color: var(--blue); background: var(--dark2);
+      margin-bottom: 16px; position: relative; z-index: 1;
+    }
+
+    .lp-step-title { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+    .lp-step-desc  { font-size: .8rem; color: var(--gray); line-height: 1.6; }
+
+    /* ── FAQ ─────────────────────────────────────────────── */
+    #lp-faq { background: var(--dark); padding: 80px 6%; }
+
+    .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+
+    .faq-item {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px; overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; cursor: pointer;
+      font-size: .92rem; font-weight: 600;
+      user-select: none; transition: color .2s;
+    }
+
+    .faq-question:hover { color: var(--blue); }
+    .faq-icon { font-size: 1.2rem; color: var(--blue); transition: transform .3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .35s;
+      font-size: .88rem; color: var(--gray); line-height: 1.7; padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px; }
+
+    /* ── CTA final ───────────────────────────────────────── */
+    #lp-cta { background: var(--dark2); padding: 100px 6%; text-align: center; }
+
+    .cta-box {
+      max-width: 680px; margin: 0 auto;
+      background: linear-gradient(135deg, rgba(26,127,240,.12), rgba(26,127,240,.04));
+      border: 1px solid rgba(26,127,240,.25);
+      border-radius: 24px; padding: 60px 48px;
+    }
+
+    .cta-box .section-title { margin-bottom: 12px; }
+    .cta-box p { color: var(--gray); font-size: 1rem; line-height: 1.7; margin-bottom: 32px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 960px) {
+      #lp-hero    { flex-direction: column; }
+      .lp-hero-visual { max-width: 100%; }
+      #lp-whats-in { grid-template-columns: 1fr; gap: 48px; }
+      .price-box  { position: static; }
+      .lp-steps::before { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      #lp-hero { padding: 110px 4% 60px; }
+      #why-lp, #lp-whats-in, #lp-process, #lp-faq, #lp-cta { padding: 60px 4%; }
+      .cta-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+  </a>
+  <button class="nav-toggle" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="servicos.html">Serviços</a></li>
+    <li><a href="index.html#pricing">Preços</a></li>
+    <li><a href="index.html#portfolio">Portfólio</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Solicitar Orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="lp-hero">
+  <div class="lp-hero-bg"></div>
+  <div class="lp-hero-grid"></div>
+
+  <div class="lp-hero-content">
+    <a href="servicos.html" class="svc-back">← Voltar para serviços</a>
+    <div class="svc-badge">🎯 Landing Page</div>
+
+    <h1 class="lp-hero-title">
+      Transforme cliques em<br><span>clientes de verdade</span>
+    </h1>
+
+    <p class="lp-hero-sub">
+      Uma página criada com um único objetivo: converter. Copywriting estratégico, design
+      focado e entrega em 3 dias para você já começar a colher resultados.
+    </p>
+
+    <div class="lp-hero-actions">
+      <a href="https://wa.me/5511996523787?text=Olá! Quero contratar uma Landing Page." target="_blank" class="btn-primary">✦ Contratar agora – R$ 1.400</a>
+      <a href="#lp-whats-in" class="btn-secondary">Ver o que está incluso →</a>
+    </div>
+
+    <div class="guarantees">
+      <div class="guarantee"><span>✅</span> Entrega em 3 dias</div>
+      <div class="guarantee"><span>✅</span> Copywriting incluso</div>
+      <div class="guarantee"><span>✅</span> Alta conversão</div>
+    </div>
+  </div>
+
+  <!-- Funil visual de conversão -->
+  <div class="lp-hero-visual fade-in">
+    <div class="funnel-card">
+      <div class="funnel-icon">👥</div>
+      <div class="funnel-text" style="flex:1">
+        <strong>Visitantes chegam à página</strong>
+        <span>100% do tráfego focado em converter</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="--w:100%"></div></div>
+      </div>
+    </div>
+    <div class="funnel-card">
+      <div class="funnel-icon">💡</div>
+      <div class="funnel-text" style="flex:1">
+        <strong>Copy + Design engajam</strong>
+        <span>Proposta irresistível e clara</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="--w:70%"></div></div>
+      </div>
+    </div>
+    <div class="funnel-card">
+      <div class="funnel-icon">📋</div>
+      <div class="funnel-text" style="flex:1">
+        <strong>CTA convida à ação</strong>
+        <span>Formulário ou botão WhatsApp</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="--w:48%"></div></div>
+      </div>
+    </div>
+    <div class="funnel-result" style="animation-delay:-1s">
+      <div>
+        <div class="result-num">+38%</div>
+        <div class="result-label">Taxa de conversão</div>
+      </div>
+      <div style="font-size:2rem;margin-left:auto">🎯</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIFERENCIAIS ===== -->
+<section id="why-lp">
+  <div class="section-label">Por que funciona?</div>
+  <h2 class="section-title">Uma landing page não é<br>um site qualquer</h2>
+
+  <div class="why-grid">
+    <div class="why-card fade-in">
+      <div class="why-icon">🎯</div>
+      <div class="why-title">Foco total em conversão</div>
+      <p class="why-desc">Sem distrações, menus ou links externos. Toda a atenção do visitante vai para a única ação que importa: entrar em contato com você.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">✍️</div>
+      <div class="why-title">Copywriting estratégico incluso</div>
+      <p class="why-desc">Não só o design: escrevemos todos os textos com técnicas de persuasão que fazem o visitante querer agir agora.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">📱</div>
+      <div class="why-title">Integração com WhatsApp</div>
+      <p class="why-desc">O cliente clica e cai direto no seu WhatsApp com uma mensagem pré-formatada. Zero atrito para entrar em contato.</p>
+    </div>
+    <div class="why-card fade-in">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">Carrega em menos de 2 segundos</div>
+      <p class="why-desc">Sites lentos perdem até 53% dos visitantes. Nossa landing page é otimizada para carregar na velocidade que converte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INCLUSO + PREÇO ===== -->
+<section id="lp-whats-in">
+  <div>
+    <div class="section-label">O que está incluso</div>
+    <h2 class="section-title">Tudo pronto para<br>você só divulgar</h2>
+    <p class="section-sub" style="margin-bottom:0">Um pacote completo que vai do zero à landing page publicada em 3 dias.</p>
+
+    <ul class="includes-list">
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Copywriting profissional incluso</strong>
+          <span>Escrevemos todos os textos da página com foco em conversão.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Design responsivo e focado</strong>
+          <span>Layout exclusivo para desktop e mobile, sem distrações.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Formulário de captura de leads</strong>
+          <span>Receba dados dos interessados diretamente no seu e-mail.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Botão WhatsApp integrado</strong>
+          <span>CTA direto para o WhatsApp com mensagem pré-configurada.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Hospedagem por 1 ano inclusa</strong>
+          <span>Publicamos a página no seu domínio ou em um subdomínio dedicado.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Pixel do Facebook + Google Tag Manager</strong>
+          <span>Configuramos o rastreamento para suas campanhas de tráfego pago.</span>
+        </div>
+      </li>
+      <li class="include-item fade-in">
+        <div class="include-check">✓</div>
+        <div class="include-text">
+          <strong>Entrega em 3 dias úteis</strong>
+          <span>Processo ágil e sem burocracia do briefing à publicação.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="price-box fade-in">
+    <div class="popular-badge">⭐ Mais contratado</div>
+    <div class="price-label">Investimento</div>
+    <div class="price-value">R$ 1.400,00</div>
+    <div class="price-note">Preço único. Sem mensalidades ocultas.</div>
+
+    <ul class="price-items">
+      <li class="price-item">Copywriting incluso</li>
+      <li class="price-item">Design responsivo</li>
+      <li class="price-item">Formulário de leads</li>
+      <li class="price-item">WhatsApp integrado</li>
+      <li class="price-item">Pixel FB + GTM</li>
+      <li class="price-item">Hospedagem 1 ano</li>
+      <li class="price-item">Entrega em 3 dias</li>
+    </ul>
+
+    <hr class="price-divider">
+
+    <a href="https://wa.me/5511996523787?text=Olá! Quero contratar uma Landing Page." target="_blank" class="btn-primary" style="width:100%;justify-content:center">
+      ✦ Quero minha landing page
+    </a>
+
+    <p style="text-align:center;font-size:.78rem;color:var(--gray);margin-top:16px">📱 Respondemos em até 2 horas</p>
+  </div>
+</section>
+
+<!-- ===== PROCESSO ===== -->
+<section id="lp-process">
+  <div class="section-label">Como funciona</div>
+  <h2 class="section-title">Do briefing à publicação<br>em 3 dias</h2>
+
+  <div class="lp-steps">
+    <div class="lp-step fade-in">
+      <div class="lp-step-num">01</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">💬</div>
+      <div class="lp-step-title">Briefing</div>
+      <p class="lp-step-desc">Você nos conta sobre seu produto/serviço, público e objetivo.</p>
+    </div>
+    <div class="lp-step fade-in">
+      <div class="lp-step-num">02</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">✍️</div>
+      <div class="lp-step-title">Copy + Design</div>
+      <p class="lp-step-desc">Criamos os textos e o layout. Você aprova antes de publicar.</p>
+    </div>
+    <div class="lp-step fade-in">
+      <div class="lp-step-num">03</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">⚙️</div>
+      <div class="lp-step-title">Desenvolvimento</div>
+      <p class="lp-step-desc">Desenvolvemos a página com todos os rastreamentos configurados.</p>
+    </div>
+    <div class="lp-step fade-in">
+      <div class="lp-step-num">04</div>
+      <div style="font-size:1.4rem;margin-bottom:6px">🚀</div>
+      <div class="lp-step-title">No ar!</div>
+      <p class="lp-step-desc">Publicamos e você já pode divulgar e colher leads.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="lp-faq">
+  <div class="section-label">Dúvidas frequentes</div>
+  <h2 class="section-title">Perguntas mais comuns</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question">Landing page é diferente de um site? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Sim. Um site tem várias páginas e objetivos. Uma landing page tem uma página só, com um único objetivo (ex: capturar um lead ou vender um produto), o que a torna muito mais eficiente para campanhas.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Funciona com Google Ads e Facebook Ads? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Perfeitamente. Configuramos os pixels e tags necessários para que seu tráfego pago converta melhor e você acompanhe o custo por lead.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Preciso ter texto pronto para passar? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Não! O copywriting está incluso. Basta fazer o briefing respondendo sobre seu produto, diferenciais e público-alvo. A gente cuida do resto.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Posso alterar o conteúdo depois? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Sim. Dentro dos 30 dias de suporte, fazemos alterações de texto e imagens sem custo extra. Após isso, cobraremos uma taxa de manutenção por hora.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Qual é o prazo de entrega real? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">3 dias úteis após aprovação do briefing e pagamento da entrada. Em alguns casos entregamos em menos tempo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="lp-cta">
+  <div class="cta-box fade-in">
+    <div class="section-label" style="text-align:center">Pronto para converter mais?</div>
+    <h2 class="section-title">Sua landing page<br>em 3 dias no ar</h2>
+    <p>Fale agora pelo WhatsApp e receba um modelo de briefing para começar hoje mesmo. Sem enrolação.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/5511996523787?text=Olá! Quero contratar uma Landing Page pela RD Webdesign." target="_blank" class="btn-primary">✦ Falar no WhatsApp</a>
+      <a href="mailto:rychardsilva205@gmail.com?subject=Orçamento Landing Page" class="btn-secondary">Enviar e-mail →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+    <span class="footer-copy">© 2025 RD Webdesign – Todos os direitos reservados</span>
+  </div>
+  <div class="footer-links">
+    <a href="servicos.html">Serviços</a>
+    <a href="index.html#pricing">Preços</a>
+    <a href="index.html#portfolio">Portfólio</a>
+    <a href="index.html#contact">Contato</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511996523787" target="_blank" title="Fale no WhatsApp">💬</a>
+
+<script src="js/main.js"></script>
+<script>
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
