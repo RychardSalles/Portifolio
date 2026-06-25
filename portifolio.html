@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio – RD Webdesign</title>
+  <meta name="description" content="Conheça os projetos desenvolvidos pela RD Webdesign: landing pages, sites institucionais, lojas virtuais e interfaces UI.">
+
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Hero do portfólio ──────────────────────────────── */
+    #pf-hero {
+      min-height: 46vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px max(6%, calc(50vw - 700px)) 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pf-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(26,127,240,.14) 0%, transparent 70%);
+    }
+
+    .pf-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(26,127,240,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,127,240,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .pf-hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+    .pf-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,127,240,.12);
+      border: 1px solid rgba(26,127,240,.3);
+      border-radius: 100px; padding: 6px 18px;
+      font-size: .75rem; font-weight: 700; color: var(--blue-light);
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px;
+    }
+
+    .pf-hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 800; line-height: 1.15;
+      margin-bottom: 18px; letter-spacing: -.02em;
+    }
+
+    .pf-hero-title .accent { color: var(--blue); }
+
+    .pf-hero-sub {
+      font-size: clamp(.9rem, 1.1vw, 1.05rem);
+      color: var(--gray); line-height: 1.7;
+      margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ── Filtros ────────────────────────────────────────── */
+    #pf-main { background: var(--dark2); }
+
+    .pf-filters {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .pf-filter-btn {
+      padding: 8px 20px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: transparent; color: var(--gray-light);
+      font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+
+    .pf-filter-btn:hover,
+    .pf-filter-btn.active {
+      background: var(--blue); border-color: var(--blue);
+      color: #fff;
+    }
+
+    /* ── Grid de projetos ───────────────────────────────── */
+    .pf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Card de projeto */
+    .pf-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      overflow: hidden; position: relative; cursor: pointer;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      display: block; text-decoration: none; color: inherit;
+    }
+
+    .pf-card:hover {
+      border-color: rgba(26,127,240,.45);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0,0,0,.45);
+    }
+
+    .pf-card:hover .pf-overlay { opacity: 1; }
+
+    /* Área do iframe preview */
+    .pf-frame-wrap {
+      position: relative;
+      width: 100%; height: 220px;
+      overflow: hidden; background: var(--dark4);
+    }
+
+    .pf-frame-scaler {
+      position: absolute; top: 0; left: 0;
+      width: 1440px; height: 900px;
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    .pf-frame-scaler iframe {
+      width: 100%; height: 100%;
+      border: none; display: block;
+    }
+
+    /* Linha divisória + info */
+    .pf-info {
+      padding: 16px 20px 20px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .pf-tag {
+      font-size: .7rem; color: var(--blue);
+      font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; margin-bottom: 5px;
+    }
+
+    .pf-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem; font-weight: 700;
+    }
+
+    /* Overlay ao hover */
+    .pf-overlay {
+      position: absolute; inset: 0;
+      background: rgba(13,15,20,.88);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s; gap: 10px;
+    }
+
+    .pf-overlay-tag {
+      font-size: .7rem; color: var(--blue);
+      font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .pf-overlay-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+    }
+
+    .pf-overlay-btn {
+      margin-top: 10px; padding: 10px 26px;
+      background: var(--blue); border-radius: 8px;
+      font-size: .85rem; font-weight: 700; color: #fff;
+      text-decoration: none; transition: background .2s;
+    }
+
+    .pf-overlay-btn:hover { background: var(--blue-light); }
+
+    /* ── CTA inferior ───────────────────────────────────── */
+    #pf-cta {
+      background: var(--dark);
+      text-align: center;
+    }
+
+    .pf-cta-inner { max-width: 600px; margin: 0 auto; }
+
+    .pf-cta-inner .section-label { margin-bottom: 16px; }
+
+    .pf-cta-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+      font-weight: 800; line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .pf-cta-sub {
+      color: var(--gray); font-size: clamp(.9rem, 1.1vw, 1rem);
+      line-height: 1.7; margin-bottom: 36px;
+    }
+
+    .pf-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Responsivo ─────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .pf-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .pf-grid { grid-template-columns: 1fr; }
+      .pf-frame-wrap { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVEGAÇÃO ===== -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+  </a>
+
+  <button class="nav-toggle" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links">
+    <li><a href="index.html#services">Serviços</a></li>
+    <li><a href="precos.html">Preços</a></li>
+    <li><a href="portifolio.html" style="color:var(--blue)">Portfólio</a></li>
+    <li><a href="index.html#process">Processo</a></li>
+    <li><a href="index.html#proof">Por que eu?</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Solicitar Orçamento</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="pf-hero">
+  <div class="pf-hero-bg"></div>
+  <div class="pf-hero-grid"></div>
+
+  <div class="pf-hero-content fade-in">
+    <div class="pf-badge">Projetos realizados</div>
+    <h1 class="pf-hero-title">
+      Cada projeto conta<br>
+      <span class="accent">uma história de resultado</span>
+    </h1>
+    <p class="pf-hero-sub">
+      Aqui você encontra sites que foram desenvolvidos com foco em conversão, velocidade e design que se destaca da concorrência.
+    </p>
+    <a href="index.html#contact" class="btn-primary">Quero um projeto assim →</a>
+  </div>
+</section>
+
+<!-- ===== GRID DE PROJETOS ===== -->
+<section id="pf-main">
+
+  <div class="pf-filters fade-in">
+    <button class="pf-filter-btn active" data-filter="all">Todos</button>
+    <button class="pf-filter-btn" data-filter="landing">Landing Page</button>
+    <button class="pf-filter-btn" data-filter="ui">UI Design</button>
+  </div>
+
+  <div class="pf-grid">
+
+    <!-- Projeto 1: Marketing Criativo -->
+    <a href="https://landing-pagen.netlify.app" target="_blank" class="pf-card fade-in" data-cat="landing">
+      <div class="pf-frame-wrap">
+        <div class="pf-frame-scaler">
+          <iframe src="https://landing-pagen.netlify.app"
+                  scrolling="no"
+                  title="Landing Page – Marketing Criativo"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-tag">Landing Page</div>
+        <div class="pf-name">Marketing Criativo – Newsletter</div>
+      </div>
+      <div class="pf-overlay">
+        <div class="pf-overlay-tag">Landing Page • Newsletter</div>
+        <div class="pf-overlay-name">Marketing Criativo</div>
+        <span class="pf-overlay-btn">Ver projeto →</span>
+      </div>
+    </a>
+
+    <!-- Projeto 2: Restaurante FOOD -->
+    <a href="https://landing-page-restaurante.netlify.app" target="_blank" class="pf-card fade-in" data-cat="landing">
+      <div class="pf-frame-wrap">
+        <div class="pf-frame-scaler">
+          <iframe src="https://landing-page-restaurante.netlify.app"
+                  scrolling="no"
+                  title="Landing Page – Restaurante"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-tag">Landing Page</div>
+        <div class="pf-name">Restaurante FOOD</div>
+      </div>
+      <div class="pf-overlay">
+        <div class="pf-overlay-tag">Landing Page • Restaurante</div>
+        <div class="pf-overlay-name">Restaurante FOOD</div>
+        <span class="pf-overlay-btn">Ver projeto →</span>
+      </div>
+    </a>
+
+    <!-- Projeto 3: Login Form -->
+    <a href="https://login-forms-01.netlify.app" target="_blank" class="pf-card fade-in" data-cat="ui">
+      <div class="pf-frame-wrap">
+        <div class="pf-frame-scaler">
+          <iframe src="https://login-forms-01.netlify.app"
+                  scrolling="no"
+                  title="UI – Login Form"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-tag">UI Design</div>
+        <div class="pf-name">Login Form</div>
+      </div>
+      <div class="pf-overlay">
+        <div class="pf-overlay-tag">UI Design • Formulário</div>
+        <div class="pf-overlay-name">Login Form</div>
+        <span class="pf-overlay-btn">Ver projeto →</span>
+      </div>
+    </a>
+
+    <!-- Projeto 4: Beauty Bella Studios -->
+    <a href="https://beauty-bella-studios.netlify.app" target="_blank" class="pf-card fade-in" data-cat="landing">
+      <div class="pf-frame-wrap">
+        <div class="pf-frame-scaler">
+          <iframe src="https://beauty-bella-studios.netlify.app"
+                  scrolling="no"
+                  title="Landing Page – Beauty Bella Studios"
+                  loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-tag">Landing Page</div>
+        <div class="pf-name">Beauty Bella Studios</div>
+      </div>
+      <div class="pf-overlay">
+        <div class="pf-overlay-tag">Landing Page • Beleza</div>
+        <div class="pf-overlay-name">Beauty Bella Studios</div>
+        <span class="pf-overlay-btn">Ver projeto →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="pf-cta">
+  <div class="pf-cta-inner fade-in">
+    <div class="section-label">Próximo passo</div>
+    <h2 class="pf-cta-title">Seu projeto pode<br>ser o próximo</h2>
+    <p class="pf-cta-sub">Transforme a ideia do seu negócio em um site que trabalha por você todos os dias.</p>
+    <div class="pf-cta-actions">
+      <a href="index.html#contact" class="btn-primary">Solicitar orçamento →</a>
+      <a href="precos.html" class="btn-secondary">Ver tabela de preços</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RODAPÉ ===== -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-text">RD <span>WEBDESIGN</span></div>
+    <span class="footer-copy">© 2025 RD Webdesign – Todos os direitos reservados</span>
+  </div>
+  <div class="footer-links">
+    <a href="index.html#services">Serviços</a>
+    <a href="precos.html">Preços</a>
+    <a href="portifolio.html">Portfólio</a>
+    <a href="index.html#contact">Contato</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5511996523787" target="_blank" title="Fale no WhatsApp">💬</a>
+
+<script src="js/main.js"></script>
+<script>
+  /* Escala iframes */
+  function scalePfFrames() {
+    document.querySelectorAll('.pf-frame-wrap').forEach(wrap => {
+      const scaler = wrap.querySelector('.pf-frame-scaler');
+      if (!scaler) return;
+      const scale = wrap.offsetWidth / 1440;
+      scaler.style.transform = `scale(${scale})`;
+      wrap.style.height = Math.ceil(900 * scale) + 'px';
+    });
+  }
+
+  scalePfFrames();
+  window.addEventListener('resize', scalePfFrames);
+
+  /* Filtro por categoria */
+  const filterBtns = document.querySelectorAll('.pf-filter-btn');
+  const cards = document.querySelectorAll('.pf-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.cat === filter;
+        card.style.display = match ? '' : 'none';
+      });
+
+      scalePfFrames();
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    STYLE.CSS — Estilos globais do site RD Webdesign
    Compartilhado por todas as páginas
    ============================================================ */
@@ -35,7 +35,7 @@ body {
 
 /* ---------- Logo texto (substitui imagem) ---------- */
 .logo-text {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.2rem;
   font-weight: 800;
   letter-spacing: .08em;
@@ -140,10 +140,11 @@ section { padding: 100px max(6%, calc(50vw - 700px)); }
 }
 
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: clamp(1.8rem, 2.5vw, 2.8rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
+  letter-spacing: -.01em;
   margin-bottom: 16px;
 }
 
