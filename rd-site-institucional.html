@@ -599,6 +599,44 @@
   </div>
 </section>
 
+<style>
+  #svc-portfolio{background:var(--dark2);padding:80px 6%}
+  .svc-pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+  .svc-pf-card{background:var(--dark3);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:border-color .3s,transform .3s}
+  .svc-pf-card:hover{border-color:rgba(26,127,240,.45);transform:translateY(-5px)}
+  .svc-pf-frame{position:relative;width:100%;height:200px;overflow:hidden;background:var(--dark4)}
+  .svc-pf-scaler{position:absolute;top:0;left:0;width:1440px;height:900px;transform-origin:top left;pointer-events:none}
+  .svc-pf-scaler iframe{width:100%;height:100%;border:none}
+  .svc-pf-info{padding:14px 18px 18px;border-top:1px solid rgba(255,255,255,.06)}
+  .svc-pf-tag{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+  .svc-pf-name{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:10px}
+  .svc-pf-btn{font-size:.82rem;color:var(--blue);font-weight:600}
+  @media(max-width:768px){.svc-pf-grid{grid-template-columns:1fr!important}}
+</style>
+
+<!-- ===== PORTFÓLIO RELACIONADO ===== -->
+<section id="svc-portfolio">
+  <div class="section-label">Projetos realizados</div>
+  <h2 class="section-title">Sites institucionais que já desenvolvemos</h2>
+  <div class="svc-pf-grid">
+    <a href="https://black-gold-barbearia.netlify.app" target="_blank" class="svc-pf-card fade-in">
+      <div class="svc-pf-frame"><div class="svc-pf-scaler"><iframe src="https://black-gold-barbearia.netlify.app" scrolling="no" loading="lazy" title="Black Gold Barbearia"></iframe></div></div>
+      <div class="svc-pf-info"><div class="svc-pf-tag">Barbearia</div><div class="svc-pf-name">Black Gold Barbearia</div><span class="svc-pf-btn">Ver projeto →</span></div>
+    </a>
+    <a href="https://brasa-e-sal.netlify.app" target="_blank" class="svc-pf-card fade-in">
+      <div class="svc-pf-frame"><div class="svc-pf-scaler"><iframe src="https://brasa-e-sal.netlify.app" scrolling="no" loading="lazy" title="Brasa & Sal"></iframe></div></div>
+      <div class="svc-pf-info"><div class="svc-pf-tag">Restaurante</div><div class="svc-pf-name">Brasa &amp; Sal</div><span class="svc-pf-btn">Ver projeto →</span></div>
+    </a>
+    <a href="https://pinnacle-imoveis.netlify.app" target="_blank" class="svc-pf-card fade-in">
+      <div class="svc-pf-frame"><div class="svc-pf-scaler"><iframe src="https://pinnacle-imoveis.netlify.app" scrolling="no" loading="lazy" title="Pinnacle Imóveis"></iframe></div></div>
+      <div class="svc-pf-info"><div class="svc-pf-tag">Imóveis</div><div class="svc-pf-name">Pinnacle Imóveis</div><span class="svc-pf-btn">Ver projeto →</span></div>
+    </a>
+  </div>
+</section>
+<script>
+  (function(){function s(){document.querySelectorAll('.svc-pf-frame').forEach(function(w){var sc=w.querySelector('.svc-pf-scaler');if(!sc)return;var scale=w.offsetWidth/1440;sc.style.transform='scale('+scale+')';w.style.height=Math.ceil(900*scale)+'px'})};s();window.addEventListener('resize',s)})();
+</script>
+
 <!-- ===== CTA FINAL ===== -->
 <section id="svc-cta">
   <div class="cta-box fade-in">
