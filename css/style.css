@@ -93,7 +93,7 @@ nav.scrolled { padding: 10px max(6%, calc(50vw - 700px)); }
 
 /* Botão de CTA no menu */
 .nav-cta {
-  background: var(--blue) !important;
+  background: #1060C8 !important;
   color: #fff !important;
   padding: 9px 22px;
   border-radius: 8px;
@@ -155,12 +155,21 @@ section { padding: 100px max(6%, calc(50vw - 700px)); }
   max-width: 520px;
 }
 
+/* ---------- Foco visível (acessibilidade por teclado) ---------- */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* ---------- Botões ---------- */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--blue);
+  background: #1060C8;
   color: #fff;
   padding: 14px 28px;
   border-radius: 10px;

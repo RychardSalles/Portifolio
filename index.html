@@ -7,6 +7,8 @@
   <meta name="description" content="Criamos sites profissionais, landing pages e lojas virtuais que geram resultados reais. Entrega rápida, resultado garantido.">
 
   <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 
@@ -379,7 +381,7 @@
     .form-select option { background: var(--dark4); }
 
     .btn-submit {
-      background: var(--blue); color: #fff; padding: 15px 32px;
+      background: #1060C8; color: #fff; padding: 15px 32px;
       border-radius: 10px; font-family: 'Inter', sans-serif;
       font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
       transition: all .2s; box-shadow: 0 4px 24px rgba(26,127,240,.35);
@@ -794,8 +796,8 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">O que você precisa?</label>
-      <select class="form-select" name="servico">
+      <label class="form-label" for="tipo-servico">O que você precisa?</label>
+      <select class="form-select" id="tipo-servico" name="servico">
         <option value="" disabled selected>Selecione um serviço</option>
         <option>Site Institucional – R$ 3.900</option>
         <option>Landing Page – R$ 1.400</option>
