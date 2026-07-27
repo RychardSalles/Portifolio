@@ -4,7 +4,29 @@
       "Read(//c/Users/Pichau/Documents/estudos/**)",
       "Read(//c/Users/Pichau/Documents/estudos/landing_page/**)",
       "Read(//c/Users/Pichau/Documents/estudos/landing_page_restaurante/**)",
-      "Read(//c/Users/Pichau/Documents/estudos/login_form/**)"
+      "Read(//c/Users/Pichau/Documents/estudos/login_form/**)",
+      "Skill(run)",
+      "Bash(python3 -c \"import playwright; print\\('py-ok'\\)\")",
+      "Bash(npm ls *)",
+      "Read(//c/Users/Pichau/AppData/Roaming/npm/node_modules/**)",
+      "Bash(npm root *)",
+      "Bash(node --check \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\consultora-imoveis\\\\js\\\\main.js\")",
+      "PowerShell(Start-Process \"http://localhost:8791/index.html\")",
+      "Bash(python3 -)",
+      "Bash(cp *)",
+      "Bash(echo \"done \\($?\\)\")",
+      "PowerShell(Remove-Item *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(mkdir -p \"/c/Users/Pichau/Documents/Claude - Registro de Projetos\")",
+      "Bash(mkdir -p \"/c/Users/Pichau/Documents/Belle Cilios Site/img\")",
+      "Bash(mkdir -p \"/c/Users/Pichau/Documents/Belle Cilios Site/css\")",
+      "Bash(mkdir -p \"/c/Users/Pichau/Documents/Belle Cilios Site/js\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Belle Cilios Site\\\\index.html\")",
+      "Bash(gh api *)",
+      "Bash(node --check js/admin.js)",
+      "Bash(node --check js/script.js)",
+      "Bash(pkill -f \"serve -l 4173\")",
+      "Bash(node -e \"require\\('fs'\\).readFileSync\\('index.html','utf8'\\).includes\\('brand-name'\\) && console.log\\('OK html'\\)\")"
     ]
   }
 }
