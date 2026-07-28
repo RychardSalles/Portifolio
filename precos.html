@@ -104,6 +104,12 @@
     }
     .cat-features li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
 
+    .cat-upsell {
+      font-size: .78rem; color: var(--blue-light);
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 14px; margin-bottom: 20px; line-height: 1.5;
+    }
+
     /* ── Tabela detalhada com todos os serviços ─────────── */
     .table-section-title {
       font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800;
@@ -161,6 +167,56 @@
     .transparency-note-title { font-weight: 700; margin-bottom: 6px; font-size: .95rem; }
     .transparency-note-text  { font-size: .85rem; color: var(--gray); line-height: 1.6; }
 
+    /* ── PLANOS DE MANUTENÇÃO MENSAL ─────────────────────── */
+    #maintenance-plans {
+      background: var(--dark);
+      padding: 90px max(6%, calc(50vw - 700px));
+    }
+
+    .plans-table-wrap { overflow-x: auto; }
+
+    .plans-table {
+      width: 100%; min-width: 640px;
+      border-collapse: collapse;
+      border-radius: var(--radius); overflow: hidden;
+    }
+
+    .plans-table th, .plans-table td {
+      padding: 16px 20px; text-align: center;
+      font-size: .88rem; border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .plans-table thead th {
+      background: var(--dark3);
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: .82rem;
+      letter-spacing: .04em;
+    }
+
+    .plans-table tbody th {
+      text-align: left; font-weight: 600; color: var(--gray-light);
+      background: var(--dark2);
+    }
+
+    .plans-table tbody td { background: var(--dark2); color: var(--gray-light); }
+
+    .plans-table .col-featured { background: rgba(26,127,240,.1) !important; }
+    .plans-table thead th.col-featured { background: var(--blue) !important; color: #fff; }
+
+    .plans-table .price-cell { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--blue); font-size: 1.05rem; }
+
+    .plans-table .cta-row td { border-bottom: none; padding-top: 24px; }
+
+    .maintenance-note {
+      max-width: 720px; margin: 40px auto 0;
+      text-align: center; color: var(--gray);
+      font-size: .9rem; line-height: 1.7;
+    }
+
+    .maintenance-note strong {
+      display: block; margin-bottom: 8px;
+      color: var(--gray-light); font-family: 'Outfit', sans-serif; font-size: 1rem;
+    }
+
     /* ── CTA final ───────────────────────────────────────── */
     #price-cta {
       background: var(--dark); padding: 80px max(6%, calc(50vw - 700px));
@@ -199,6 +255,7 @@
 
   <ul class="nav-links">
     <li><a href="index.html#services">Serviços</a></li>
+    <li><a href="#maintenance-plans">Planos</a></li>
     <li><a href="precos.html" style="color:var(--blue)">Preços</a></li>
     <li><a href="portifolio.html">Portfólio</a></li>
     <li><a href="index.html#process">Processo</a></li>
@@ -224,6 +281,8 @@
 <!-- ===== TABELA ===== -->
 <section id="price-table">
 
+  <div class="table-section-title fade-in">Setup — entrega do seu site</div>
+
   <!-- Cards resumo dos principais serviços -->
   <div class="price-categories">
 
@@ -239,6 +298,7 @@
         <li>Domínio + hospedagem 1 ano</li>
         <li>Suporte 30 dias</li>
       </ul>
+      <div class="cat-upsell">+ plano mensal a partir de R$ 297/mês para manutenção e suporte contínuo</div>
       <a href="rd-site-institucional.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
     </div>
 
@@ -254,6 +314,7 @@
         <li>Pixel FB + Google Tag</li>
         <li>Entrega em 3 dias</li>
       </ul>
+      <div class="cat-upsell">+ plano mensal a partir de R$ 297/mês para manutenção e suporte contínuo</div>
       <a href="rd-landing-page.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
     </div>
 
@@ -269,6 +330,7 @@
         <li>Controle de estoque</li>
         <li>Frete automático</li>
       </ul>
+      <div class="cat-upsell">+ plano mensal a partir de R$ 297/mês para manutenção e suporte contínuo</div>
       <a href="rd-loja-virtual.html" class="btn-primary" style="width:100%;justify-content:center">Ver detalhes →</a>
     </div>
 
@@ -338,6 +400,72 @@
     </div>
   </div>
 
+</section>
+
+<!-- ===== PLANOS DE MANUTENÇÃO MENSAL ===== -->
+<section id="maintenance-plans">
+  <div class="table-section-title fade-in" style="text-align:center">Planos de manutenção mensal</div>
+  <p class="ph-sub fade-in" style="max-width:600px;margin:0 auto 40px">Depois que seu site está no ar, mantenha ele funcionando, atualizado e gerando resultado com um plano mensal.</p>
+
+  <div class="plans-table-wrap fade-in">
+    <table class="plans-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Plano Base</th>
+          <th class="col-featured">Plano Crescimento</th>
+          <th>Plano Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Preço</th>
+          <td class="price-cell">R$ 297/mês</td>
+          <td class="price-cell col-featured">R$ 597/mês</td>
+          <td class="price-cell">R$ 1.197/mês</td>
+        </tr>
+        <tr>
+          <th>Hospedagem inclusa</th>
+          <td>✅</td><td class="col-featured">✅</td><td>✅</td>
+        </tr>
+        <tr>
+          <th>Suporte via WhatsApp</th>
+          <td>✅</td><td class="col-featured">✅</td><td>✅</td>
+        </tr>
+        <tr>
+          <th>Alterações mensais</th>
+          <td>2x</td><td class="col-featured">Ilimitadas</td><td>Ilimitadas</td>
+        </tr>
+        <tr>
+          <th>Relatório de visitas</th>
+          <td>❌</td><td class="col-featured">✅</td><td>✅</td>
+        </tr>
+        <tr>
+          <th>Atualização de conteúdo</th>
+          <td>❌</td><td class="col-featured">✅</td><td>✅</td>
+        </tr>
+        <tr>
+          <th>Automação de WhatsApp</th>
+          <td>❌</td><td class="col-featured">❌</td><td>✅</td>
+        </tr>
+        <tr>
+          <th>Captação de leads</th>
+          <td>❌</td><td class="col-featured">❌</td><td>✅</td>
+        </tr>
+        <tr class="cta-row">
+          <td></td>
+          <td><a href="index.html#contact" class="btn-secondary" style="width:100%;justify-content:center">Quero o Básico</a></td>
+          <td class="col-featured"><a href="index.html#contact" class="btn-primary" style="width:100%;justify-content:center">Quero Crescer</a></td>
+          <td><a href="index.html#contact" class="btn-secondary" style="width:100%;justify-content:center">Quero o Máximo</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="maintenance-note fade-in">
+    <strong>Por que ter um plano mensal?</strong>
+    Um site sem manutenção é como uma loja com vitrine parada. Links quebram, textos ficam desatualizados, e o Google penaliza sites lentos. Com um plano mensal, você garante que seu site continua funcionando, atualizado e aparecendo nas buscas — enquanto você foca no seu negócio.
+  </p>
 </section>
 
 <!-- ===== CTA FINAL ===== -->

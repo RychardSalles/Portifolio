@@ -199,6 +199,70 @@
       font-size: .82rem; font-weight: 700; color: var(--blue);
     }
 
+    /* ── MANUTENÇÃO MENSAL ───────────────────────────────── */
+    #maintenance { background: var(--dark); }
+
+    .maintenance-intro { text-align: center; max-width: 640px; margin: 0 auto; }
+    .maintenance-intro .section-label { text-align: center; }
+    .maintenance-intro .section-title { }
+    .maintenance-intro .section-sub { margin: 0 auto; }
+
+    .maintenance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .plan-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      display: flex; flex-direction: column;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+    }
+
+    .plan-card:hover { border-color: rgba(26,127,240,.3); transform: translateY(-4px); }
+
+    .plan-card.featured {
+      border-color: rgba(26,127,240,.4);
+      background: linear-gradient(180deg, rgba(26,127,240,.1), var(--dark3) 45%);
+    }
+
+    .plan-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--blue); color: #fff;
+      font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 100px; white-space: nowrap;
+    }
+
+    .plan-name  { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .plan-price { font-family: 'Outfit', sans-serif; font-size: 1.9rem; font-weight: 800; color: var(--blue); margin-bottom: 20px; }
+    .plan-price span { font-size: .5em; color: var(--gray); font-family: 'Inter', sans-serif; font-weight: 400; }
+
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; flex: 1; }
+    .plan-features li { font-size: .85rem; color: var(--gray-light); display: flex; align-items: center; gap: 10px; }
+    .plan-features li.yes::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+    .plan-features li.no { color: var(--gray); opacity: .55; }
+    .plan-features li.no::before { content: '✕'; color: var(--gray); flex-shrink: 0; }
+
+    .maintenance-note {
+      max-width: 720px; margin: 48px auto 0;
+      text-align: center; color: var(--gray);
+      font-size: .9rem; line-height: 1.7;
+    }
+
+    .maintenance-note strong {
+      display: block; margin-bottom: 8px;
+      color: var(--gray-light); font-family: 'Outfit', sans-serif; font-size: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .maintenance-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── PORTFÓLIO ────────────────────────────────────── */
     #portfolio { background: var(--dark2); }
 
@@ -509,6 +573,7 @@
 
   <ul class="nav-links">
     <li><a href="#services">Serviços</a></li>
+    <li><a href="#maintenance">Planos</a></li>
     <li><a href="precos.html">Preços</a></li>
     <li><a href="portifolio.html">Portfólio</a></li>
     <li><a href="#process">Processo</a></li>
@@ -679,6 +744,68 @@
   </div>
 </section>
 
+<!-- ===== MANUTENÇÃO MENSAL ===== -->
+<section id="maintenance">
+  <div class="maintenance-intro fade-in">
+    <div class="section-label">Depois da entrega</div>
+    <h2 class="section-title">Seu site no ar. Sua agenda cheia.<br>Todo mês.</h2>
+    <p class="section-sub">Após a entrega, cuido do seu site para que ele continue funcionando, atualizado e gerando clientes — sem você precisar se preocupar com nada técnico.</p>
+  </div>
+
+  <div class="maintenance-grid">
+    <div class="plan-card fade-in">
+      <div class="plan-name">Plano Base</div>
+      <div class="plan-price">R$ 297<span>/mês</span></div>
+      <ul class="plan-features">
+        <li class="yes">Hospedagem inclusa</li>
+        <li class="yes">Suporte via WhatsApp</li>
+        <li class="yes">2x alterações mensais</li>
+        <li class="no">Relatório de visitas</li>
+        <li class="no">Atualização de conteúdo</li>
+        <li class="no">Automação de WhatsApp</li>
+        <li class="no">Captação de leads</li>
+      </ul>
+      <a href="#contact" class="btn-secondary" style="width:100%;justify-content:center">Quero o Básico</a>
+    </div>
+
+    <div class="plan-card featured fade-in">
+      <div class="plan-badge">Mais popular</div>
+      <div class="plan-name">Plano Crescimento</div>
+      <div class="plan-price">R$ 597<span>/mês</span></div>
+      <ul class="plan-features">
+        <li class="yes">Hospedagem inclusa</li>
+        <li class="yes">Suporte via WhatsApp</li>
+        <li class="yes">Alterações ilimitadas</li>
+        <li class="yes">Relatório de visitas</li>
+        <li class="yes">Atualização de conteúdo</li>
+        <li class="no">Automação de WhatsApp</li>
+        <li class="no">Captação de leads</li>
+      </ul>
+      <a href="#contact" class="btn-primary" style="width:100%;justify-content:center">Quero Crescer</a>
+    </div>
+
+    <div class="plan-card fade-in">
+      <div class="plan-name">Plano Premium</div>
+      <div class="plan-price">R$ 1.197<span>/mês</span></div>
+      <ul class="plan-features">
+        <li class="yes">Hospedagem inclusa</li>
+        <li class="yes">Suporte via WhatsApp</li>
+        <li class="yes">Alterações ilimitadas</li>
+        <li class="yes">Relatório de visitas</li>
+        <li class="yes">Atualização de conteúdo</li>
+        <li class="yes">Automação de WhatsApp</li>
+        <li class="yes">Captação de leads</li>
+      </ul>
+      <a href="#contact" class="btn-secondary" style="width:100%;justify-content:center">Quero o Máximo</a>
+    </div>
+  </div>
+
+  <p class="maintenance-note fade-in">
+    <strong>Por que ter um plano mensal?</strong>
+    Um site sem manutenção é como uma loja com vitrine parada. Links quebram, textos ficam desatualizados, e o Google penaliza sites lentos. Com um plano mensal, você garante que seu site continua funcionando, atualizado e aparecendo nas buscas — enquanto você foca no seu negócio.
+  </p>
+</section>
+
 <!-- ===== PORTFÓLIO ===== -->
 <section id="portfolio">
   <div class="portfolio-header fade-in">
@@ -812,7 +939,7 @@
       <div class="step-num">04</div>
       <div class="step-emoji">🚀</div>
       <div class="step-title">Entrega</div>
-      <p class="step-desc">Publicamos e acompanhamos os primeiros 30 dias gratuitamente.</p>
+      <p class="step-desc">Publicamos, acompanhamos os primeiros 30 dias e oferecemos planos de manutenção mensal para quem quer continuar crescendo.</p>
     </div>
   </div>
 </section>
@@ -936,6 +1063,7 @@
         <option>Landing Page – R$ 1.400</option>
         <option>Loja Virtual – R$ 6.900</option>
         <option>Logotipo – R$ 950</option>
+        <option>Plano de Manutenção Mensal – a partir de R$ 297/mês</option>
         <option>Outro</option>
       </select>
     </div>
