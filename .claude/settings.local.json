@@ -29,7 +29,20 @@
       "Bash(node -e \"require\\('fs'\\).readFileSync\\('index.html','utf8'\\).includes\\('brand-name'\\) && console.log\\('OK html'\\)\")",
       "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\")",
       "Bash(xargs sed -i 's/© 2025 RD Webdesign/© 2026 RD Webdesign/g')",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\"; Start-Sleep -Milliseconds 800; Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\precos.html\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\"; Start-Sleep -Milliseconds 800; Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\precos.html\")",
+      "WebFetch(domain:www.instagram.com)",
+      "Bash(mkdir -p \"/c/Users/Pichau/Documents/amostras\")",
+      "Read(//c/Users/Pichau/Documents//**)",
+      "Bash(powershell -NoProfile -Command \"Test-Path 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\sh-especialista-alisamento'; Get-ChildItem 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -NoProfile -Command \"Test-Path 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\iasmyn-lash'; Get-ChildItem 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -NoProfile -Command \"Get-ChildItem 'C:\\\\Users\\\\Pichau\\\\Documents' -Directory | Select-Object Name\")",
+      "Bash(powershell -NoProfile -Command \"if \\(Test-Path 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\frans-barbearia'\\) { Get-ChildItem 'C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\frans-barbearia' } else { 'not found' }\")",
+      "Bash(start *)",
+      "Bash(C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\studio-inovare\\\\css\\\\style.css)",
+      "Bash(C:\\\\Users\\\\Pichau\\\\Documents\\\\amostras\\\\studio-inovare\\\\index.html)",
+      "Bash(node -e ' *)",
+      "Bash(python3 -c ' *)",
+      "Bash(node *)"
     ]
   }
 }
