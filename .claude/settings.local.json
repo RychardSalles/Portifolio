@@ -27,7 +27,8 @@
       "Bash(node --check js/script.js)",
       "Bash(pkill -f \"serve -l 4173\")",
       "Bash(node -e \"require\\('fs'\\).readFileSync\\('index.html','utf8'\\).includes\\('brand-name'\\) && console.log\\('OK html'\\)\")",
-      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\")"
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\")",
+      "Bash(xargs sed -i 's/© 2025 RD Webdesign/© 2026 RD Webdesign/g')"
     ]
   }
 }
