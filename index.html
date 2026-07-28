@@ -72,7 +72,13 @@
     .hero-sub {
       font-size: clamp(.95rem, 1.1vw, 1.08rem);
       color: var(--gray); line-height: 1.7;
-      margin-bottom: 40px; max-width: 500px;
+      margin-bottom: 20px; max-width: 500px;
+    }
+
+    .hero-niche {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .85rem; font-weight: 600; color: var(--blue-light);
+      margin-bottom: 32px;
     }
 
     .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
@@ -341,6 +347,62 @@
 
     .proof-text { font-size: .9rem; color: var(--gray); line-height: 1.7; }
 
+    .testimonial-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--dark3);
+      border: 1px solid rgba(37,211,102,.25);
+      border-radius: var(--radius);
+      padding: 24px 28px; margin-top: 32px; max-width: 560px;
+    }
+
+    .testimonial-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(37,211,102,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    .testimonial-text { font-size: .92rem; color: var(--gray-light); line-height: 1.6; font-style: italic; margin-bottom: 8px; }
+    .testimonial-author { font-size: .8rem; color: var(--gray); font-weight: 600; }
+
+    /* ── FAQ ──────────────────────────────────────────── */
+    #faq { background: var(--dark); }
+    #faq .process-header { margin-bottom: 48px; }
+
+    .faq-list {
+      display: flex; flex-direction: column; gap: 14px;
+      max-width: 760px; margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 0 24px;
+    }
+
+    .faq-item summary {
+      cursor: pointer; padding: 20px 0;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: .98rem;
+      list-style: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: '+'; color: var(--blue);
+      font-size: 1.4rem; font-weight: 400; flex-shrink: 0;
+    }
+
+    .faq-item[open] summary::after { content: '−'; }
+
+    .faq-answer {
+      padding: 0 0 20px; margin: 0;
+      color: var(--gray); font-size: .88rem; line-height: 1.7;
+    }
+
     /* ── CONTATO ──────────────────────────────────────── */
     #contact {
       background: var(--dark);
@@ -451,6 +513,7 @@
     <li><a href="portifolio.html">Portfólio</a></li>
     <li><a href="#process">Processo</a></li>
     <li><a href="#proof">Por que eu?</a></li>
+    <li><a href="#faq">Dúvidas</a></li>
     <li><a href="#contact" class="nav-cta">Solicitar Orçamento</a></li>
   </ul>
 </nav>
@@ -478,8 +541,10 @@
       rápida, resultado garantido.
     </p>
 
+    <p class="hero-niche">✦ Especialista em presença digital para negócios de beleza e estética</p>
+
     <div class="hero-actions">
-      <a href="servicos.html" class="btn-primary">✦ Quero meu site</a>
+      <a href="#contact" class="btn-primary">✦ Quero meu site</a>
       <a href="portifolio.html" class="btn-secondary">Ver projetos →</a>
     </div>
 
@@ -490,8 +555,8 @@
         <div class="stat-label">Prazo médio de entrega</div>
       </div>
       <div>
-        <div class="stat-num">R$<span>0</span></div>
-        <div class="stat-label">Taxas escondidas</div>
+        <div class="stat-num">30<span>d</span></div>
+        <div class="stat-label">Suporte incluso pós-entrega</div>
       </div>
       <div>
         <div class="stat-num">100<span>%</span></div>
@@ -588,11 +653,23 @@
     </a>
 
     <a href="#contact" class="service-card fade-in">
+      <div class="service-icon">📍</div>
+      <div class="service-title">Apareça no Google Maps</div>
+      <p class="service-desc">Cadastro completo no Google Meu Negócio para você aparecer nas buscas locais e no mapa.</p>
+      <ul class="service-features">
+        <li>Perfil otimizado</li>
+        <li>Fotos e categorias corretas</li>
+        <li>Verificação do negócio</li>
+        <li>Aparece no Google Maps</li>
+      </ul>
+      <div class="service-cta">Fale conosco <span>→</span></div>
+    </a>
+
+    <a href="#contact" class="service-card fade-in">
       <div class="service-icon">⚡</div>
       <div class="service-title">Outros Serviços</div>
-      <p class="service-desc">Google Meu Negócio, Cartão Digital, Atualização de Sites, Assinatura de E-mail e mais.</p>
+      <p class="service-desc">Cartão Digital, Atualização de Sites, Assinatura de E-mail e mais.</p>
       <ul class="service-features">
-        <li>Cadastro Google Meu Negócio</li>
         <li>Cartão de visitas digital</li>
         <li>Atualização de sites</li>
         <li>Assinatura de e-mail</li>
@@ -750,9 +827,17 @@
     <div class="section-label">Por que a RD Webdesign?</div>
     <h2 class="section-title">Transparência e resultado<br>como prioridade</h2>
     <p class="section-sub">
-      Estou no início da minha trajetória como freelancer. Meu diferencial é simples:
-      atenção total ao seu projeto e honestidade do início ao fim.
+      Trabalho com foco total — sem terceirização, sem equipes genéricas.
+      Cada projeto recebe atenção que agência grande não consegue dar.
     </p>
+
+    <div class="testimonial-card fade-in">
+      <div class="testimonial-icon">💬</div>
+      <div>
+        <p class="testimonial-text">"Olá, bom dia! Está sendo ótimo, bastante elogios do site."</p>
+        <div class="testimonial-author">— Leandra, Belle Cílios (via WhatsApp)</div>
+      </div>
+    </div>
   </div>
 
   <div class="proof-grid">
@@ -776,6 +861,32 @@
   </div>
 </section>
 
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="process-header fade-in">
+    <div class="section-label">Dúvidas frequentes</div>
+    <h2 class="section-title">Antes de você perguntar</h2>
+    <p class="section-sub">As respostas pras dúvidas que mais recebo antes de fechar um projeto.</p>
+  </div>
+
+  <div class="faq-list">
+    <details class="faq-item fade-in">
+      <summary>Achei caro, dá pra fazer mais barato?</summary>
+      <p class="faq-answer">O valor cobre um projeto sob medida — design exclusivo, otimizado pra conversão e com suporte real, não um template genérico. Se o seu orçamento agora é mais enxuto, a Landing Page (R$ 1.400) já entrega presença digital profissional com um investimento menor. Me chama e vemos juntos a melhor opção pro seu momento.</p>
+    </details>
+
+    <details class="faq-item fade-in">
+      <summary>Posso pensar e te chamo depois?</summary>
+      <p class="faq-answer">Claro, sem pressão nenhuma. Só um ponto importante: como eu assumo um projeto por vez pra dar atenção total a cada cliente, a data de início é reservada por ordem de chegada. Se quiser garantir a vaga mais próxima, é só avisar quando decidir.</p>
+    </details>
+
+    <details class="faq-item fade-in">
+      <summary>Domínio e hospedagem, como funciona?</summary>
+      <p class="faq-answer">No Site Institucional, domínio e hospedagem do primeiro ano já estão inclusos no valor — você não paga nada a mais pra colocar o site no ar. A partir do segundo ano, a renovação do domínio (geralmente entre R$ 40 e R$ 60/ano) é cobrada direto pelo registro do domínio, não por mim.</p>
+    </details>
+  </div>
+</section>
+
 <!-- ===== CONTATO ===== -->
 <section id="contact">
   <div class="contact-info fade-in">
@@ -788,14 +899,6 @@
       <div>
         <div class="contact-label">WhatsApp</div>
         <div class="contact-value">(11) 99652-3787</div>
-      </div>
-    </div>
-
-    <div class="contact-item">
-      <div class="contact-icon">📧</div>
-      <div>
-        <div class="contact-label">E-mail</div>
-        <div class="contact-value">rychardsilva205@gmail.com</div>
       </div>
     </div>
 
