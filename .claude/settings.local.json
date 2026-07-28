@@ -26,7 +26,8 @@
       "Bash(node --check js/admin.js)",
       "Bash(node --check js/script.js)",
       "Bash(pkill -f \"serve -l 4173\")",
-      "Bash(node -e \"require\\('fs'\\).readFileSync\\('index.html','utf8'\\).includes\\('brand-name'\\) && console.log\\('OK html'\\)\")"
+      "Bash(node -e \"require\\('fs'\\).readFileSync\\('index.html','utf8'\\).includes\\('brand-name'\\) && console.log\\('OK html'\\)\")",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Pichau\\\\Documents\\\\Portifolio\\\\index.html\")"
     ]
   }
 }
