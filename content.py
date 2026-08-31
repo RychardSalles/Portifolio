@@ -24,8 +24,8 @@ SITE = {
         "vender mais, economizar tempo e crescer de forma sustentável."
     ),
     "niche": "Especialista em presença digital para negócios de beleza e estética",
-    "whatsapp": "5511996523787",
-    "whatsapp_display": "(11) 99652-3787",
+    "whatsapp": "5511919948528",
+    "whatsapp_display": "(11) 91994-8528",
     "email": "rychardsilva205@gmail.com",
     "hours": "Seg–Sex, 9h às 18h",
     "year": 2026,
