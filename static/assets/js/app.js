@@ -244,7 +244,8 @@
       if (email) txt += '\n*E-mail:* ' + email;
       if (servico) txt += '\n*Serviço:* ' + servico;
       if (msg) txt += '\n*Mensagem:* ' + msg;
-      window.open('https://wa.me/5511996523787?text=' + encodeURIComponent(txt), '_blank');
+      var wa = document.body.getAttribute('data-wa') || '5511919948528';
+      window.open('https://wa.me/' + wa + '?text=' + encodeURIComponent(txt), '_blank');
     });
   }
 
