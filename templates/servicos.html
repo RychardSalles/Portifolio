@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import service_card %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="hero__aurora" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
+    <span class="hero__badge" data-reveal><span class="pulse-dot"></span> Escolha o seu serviço</span>
+    <h1 class="page-hero__title" data-reveal data-reveal-delay="1">
+      O que o seu <em>negócio</em><br>precisa agora?
+    </h1>
+    <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+      Selecione o serviço que faz mais sentido para você. Em cada um, explico tudo com
+      detalhes para você decidir com segurança.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="svc-grid">
+      {% for s in services %}{{ service_card(s, loop.index0) }}{% endfor %}
+      {% for s in extra_services %}{{ service_card(s, (services|length + loop.index0)) }}{% endfor %}
+    </div>
+
+    <div class="cta-bar" data-reveal data-tilt>
+      <div>
+        <strong>Não sabe qual serviço escolher?</strong>
+        <span>Me chama no WhatsApp e te ajudo a decidir o melhor para o seu negócio — sem compromisso.</span>
+      </div>
+      <a href="{{ wa_link('Olá! Não sei qual serviço escolher. Pode me ajudar?') }}" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic>Falar no WhatsApp →</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,564 @@
+{
+  "name": "RD Webdesign — Atendimento WhatsApp",
+  "nodes": [
+    {
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Webhook - Verificação",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 120],
+      "webhookId": "b2000000-0000-4000-8000-000000000001",
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "wa-202056c58ba30f093e4c05659cae910b",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "notes": "URL registrada no painel da Meta. O caminho (path) é o segredo — só quem tem essa URL exata consegue chamar o webhook. Troque por um outro valor aleatório seu se quiser."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Token de verificação correto?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [260, 120],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.query['hub.mode'] === 'subscribe' && $json.query['hub.verify_token'] === '6c690402163947e8be312c00a2ffa0864153b409d878349f' }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Responder challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [520, 40],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": { "responseCode": 200 }
+      },
+      "notes": "A Meta espera receber de volta exatamente o valor de hub.challenge, em texto puro."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Responder verificação negada",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [520, 200],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "forbidden",
+        "options": { "responseCode": 403 }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Webhook - Mensagens",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 420],
+      "webhookId": "b2000000-0000-4000-8000-000000000002",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wa-202056c58ba30f093e4c05659cae910b",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "notes": "Mesmo path do node de verificação, método POST — é a mesma URL cadastrada na Meta, ela mesma escolhe GET ou POST."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Responder recebido",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [260, 420],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ JSON.stringify({ recebido: true }) }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [{ "name": "Content-Type", "value": "application/json" }]
+          }
+        }
+      },
+      "notes": "Responde rápido pra Meta não reenviar o evento. O resto do fluxo continua rodando em background depois desta resposta."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000007",
+      "name": "Extrair mensagens Meta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 420],
+      "parameters": {
+        "jsCode": "const body = ($input.first().json.body) || {};\nconst entries = body.entry || [];\nconst out = [];\n\nfor (const entry of entries) {\n  for (const change of (entry.changes || [])) {\n    const value = change.value || {};\n    const phoneNumberId = value.metadata && value.metadata.phone_number_id;\n    const messages = value.messages || [];\n    // Sem phone_number_id ou sem mensagens = evento de status (entregue/lido) — ignorado por ora.\n    if (!phoneNumberId || messages.length === 0) continue;\n\n    const contact = (value.contacts || [])[0];\n\n    for (const message of messages) {\n      out.push({\n        json: {\n          phoneNumberId,\n          from: message.from,\n          nomeContato: (contact && contact.profile && contact.profile.name) || null,\n          messageId: message.id,\n          timestamp: message.timestamp || String(Math.floor(Date.now() / 1000)),\n          tipo: message.type || 'text',\n          texto: (message.text && message.text.body) || null,\n        }\n      });\n    }\n  }\n}\n\nreturn out;"
+      },
+      "notes": "Único node do fluxo em modo 'Run Once for All Items' — os demais rodam uma vez por mensagem (modo 'Run Once for Each Item'), já que um único webhook pode trazer mais de uma mensagem de uma vez."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000008",
+      "name": "Buscar empresa por telefone",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 420],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents:runQuery",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ structuredQuery: { from: [{ collectionId: 'empresas' }], where: { fieldFilter: { field: { fieldPath: 'whatsappPhoneNumberId' }, op: 'EQUAL', value: { stringValue: $json.phoneNumberId } } }, limit: 1 } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000009",
+      "name": "Parse empresa",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 420],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const unwrap = (v) => {\n  if (v == null) return null;\n  if ('stringValue' in v) return v.stringValue;\n  if ('integerValue' in v) return parseInt(v.integerValue, 10);\n  if ('doubleValue' in v) return v.doubleValue;\n  if ('booleanValue' in v) return v.booleanValue;\n  if ('timestampValue' in v) return v.timestampValue;\n  if ('arrayValue' in v) return (v.arrayValue.values || []).map(unwrap);\n  if ('mapValue' in v) {\n    const out = {};\n    for (const [k, val] of Object.entries(v.mapValue.fields || {})) out[k] = unwrap(val);\n    return out;\n  }\n  return null;\n};\n\nconst rows = $input.item.json;\nconst hit = Array.isArray(rows) ? rows.find((r) => r && r.document) : null;\nconst msg = $('Extrair mensagens Meta').item.json;\n\nif (!hit) {\n  return {\n    json: {\n      empresaEncontrada: false,\n      phoneNumberId: msg.phoneNumberId,\n      from: msg.from,\n      nomeContato: msg.nomeContato,\n      texto: msg.texto,\n      tipo: msg.tipo,\n      timestamp: msg.timestamp,\n    }\n  };\n}\n\nconst doc = hit.document;\nconst f = doc.fields || {};\nconst get = (k, def) => (f[k] !== undefined ? unwrap(f[k]) : def);\nconst empresaId = doc.name.split('/').pop();\n\nreturn {\n  json: {\n    empresaEncontrada: true,\n    empresaId,\n    phoneNumberId: msg.phoneNumberId,\n    from: msg.from,\n    nomeContato: msg.nomeContato,\n    texto: msg.texto,\n    tipo: msg.tipo,\n    timestamp: msg.timestamp,\n    nome: get('nome', 'nossa empresa'),\n    endereco: get('endereco', ''),\n    horario: get('horario', ''),\n    descricao: get('descricao', ''),\n    iaAtiva: get('iaAtiva', true),\n    iaPersonalidade: get('iaPersonalidade', 'simpática, objetiva e profissional'),\n    iaSaudacao: get('iaSaudacao', ''),\n    iaRegrasAdicionais: get('iaRegrasAdicionais', ''),\n    palavrasChaveTransferencia: get('iaPalavrasChaveTransferencia', ['atendente', 'humano', 'pessoa de verdade', 'falar com alguém', 'falar com alguem']),\n    whatsappAccessToken: get('whatsappAccessToken', ''),\n    telefoneNotificacao: get('whatsappTelefoneNotificacao', ''),\n  }\n};"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000010",
+      "name": "Empresa encontrada?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1300, 420],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.empresaEncontrada === true }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000011",
+      "name": "Registrar webhook não identificado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 560],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/webhooks_nao_identificados",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { phoneNumberId: { stringValue: $json.phoneNumberId || '' }, from: { stringValue: $json.from || '' }, texto: { stringValue: $json.texto || '' }, recebidoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "notes": "Nenhuma empresa tem esse phone_number_id cadastrado — fica guardado aqui pra investigar (ex: empresa ainda não configurada, ou número errado no Firestore)."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000012",
+      "name": "Registrar mensagem recebida",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 340],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$('Parse empresa').item.json.empresaId}}/clientes/{{$('Parse empresa').item.json.from}}/mensagens",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { direcao: { stringValue: 'entrada' }, texto: { stringValue: $('Parse empresa').item.json.texto || '' }, tipo: { stringValue: $('Parse empresa').item.json.tipo }, registradoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000013",
+      "name": "Pediu humano por palavra-chave?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1820, 340],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ (function(){ const texto = ($('Parse empresa').item.json.texto || '').toLowerCase(); const kws = $('Parse empresa').item.json.palavrasChaveTransferencia || []; return kws.some(k => texto.includes(String(k).toLowerCase())); })() }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000014",
+      "name": "Preparar transferência direta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2080, 220],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const empresa = $('Parse empresa').item.json;\n\nreturn {\n  json: {\n    empresaId: empresa.empresaId,\n    phoneNumberId: empresa.phoneNumberId,\n    from: empresa.from,\n    nomeContato: empresa.nomeContato,\n    whatsappAccessToken: empresa.whatsappAccessToken,\n    telefoneNotificacao: empresa.telefoneNotificacao,\n    respostaFinal: 'Só um instante, já vou te transferir para um atendente 🙂',\n    transferirHumano: true,\n    motivoTransferencia: 'palavra-chave',\n  }\n};"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000015",
+      "name": "Buscar serviços",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2080, 460],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$('Parse empresa').item.json.empresaId}}/servicos?pageSize=50",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000016",
+      "name": "Parse serviços",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2340, 460],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const unwrap = (v) => {\n  if (v == null) return null;\n  if ('stringValue' in v) return v.stringValue;\n  if ('integerValue' in v) return parseInt(v.integerValue, 10);\n  if ('doubleValue' in v) return v.doubleValue;\n  if ('booleanValue' in v) return v.booleanValue;\n  return null;\n};\n\nconst docs = $input.item.json.documents || [];\nconst servicos = docs.map((d) => {\n  const f = d.fields || {};\n  const get = (k, def) => (f[k] !== undefined ? unwrap(f[k]) : def);\n  return {\n    nome: get('nome', ''),\n    descricao: get('descricao', ''),\n    preco: get('preco', null),\n    duracaoMinutos: get('duracaoMinutos', null),\n    disponivel: get('disponivel', true),\n  };\n}).filter((s) => s.disponivel);\n\nconst servicosTexto = servicos.length\n  ? servicos.map((s) => `- ${s.nome}: R$ ${s.preco ?? '(sob consulta)'} ${s.duracaoMinutos ? '· ' + s.duracaoMinutos + ' min' : ''} ${s.descricao ? '— ' + s.descricao : ''}`).join('\\n')\n  : 'Nenhum serviço cadastrado ainda.';\n\nreturn { json: { servicosTexto, servicos } };"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000017",
+      "name": "Montar prompt IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2600, 460],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const empresa = $('Parse empresa').item.json;\nconst servicosTexto = $json.servicosTexto;\n\nconst prompt = `IDENTIDADE\\nVocê é a assistente virtual da empresa ${empresa.nome}.\\n\\nOBJETIVO\\nAtender clientes pelo WhatsApp de maneira natural, educada e objetiva.\\n\\nINFORMAÇÕES DA EMPRESA\\nNome: ${empresa.nome}\\nEndereço: ${empresa.endereco || 'não informado'}\\nHorário: ${empresa.horario || 'não informado'}\\n${empresa.iaSaudacao ? 'Saudação preferida: ' + empresa.iaSaudacao : ''}\\nPersonalidade: ${empresa.iaPersonalidade}\\n\\nSERVIÇOS\\n${servicosTexto}\\n\\nREGRAS\\n- Nunca invente informações.\\n- Nunca invente preços ou serviços que não estejam listados acima.\\n- Nunca confirme um agendamento sozinha — colete a preferência do cliente e diga que a confirmação vem em seguida.\\n- Caso não saiba uma informação, diga que vai verificar e ofereça transferir para um atendente.\\n- Seja objetiva, use linguagem natural e emojis com moderação.\\n- Não diga que é humana.\\n${empresa.iaRegrasAdicionais ? '- ' + empresa.iaRegrasAdicionais : ''}\\n\\nTRANSFERÊNCIA\\nSe você não conseguir ajudar, se o cliente insistir em falar com uma pessoa, ou se a situação fugir do que você sabe responder, termine sua resposta com a marcação exata \"[[TRANSFERIR_HUMANO]]\" em uma linha separada — o sistema cuida do resto.`;\n\nreturn {\n  json: {\n    prompt,\n    empresaId: empresa.empresaId,\n    phoneNumberId: empresa.phoneNumberId,\n    from: empresa.from,\n    nomeContato: empresa.nomeContato,\n    texto: empresa.texto,\n    whatsappAccessToken: empresa.whatsappAccessToken,\n    telefoneNotificacao: empresa.telefoneNotificacao,\n  }\n};"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000018",
+      "name": "Chamar IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2860, 460],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-sonnet-5', max_tokens: 500, system: $json.prompt, messages: [{ role: 'user', content: $json.texto }] }) }}"
+      },
+      "notes": "Credencial 'Header Auth' com header x-api-key = sua chave da Anthropic. Troque o node por outro provedor de IA se preferir — só precisa devolver texto em $json.content[0].text pro próximo node."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000019",
+      "name": "Interpretar resposta da IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3120, 460],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const resp = $input.item.json;\nlet texto = (resp.content && resp.content[0] && resp.content[0].text) || 'Desculpa, tive um problema para responder agora. Já vou te transferir para um atendente.';\n\nconst marcador = '[[TRANSFERIR_HUMANO]]';\nconst transferirHumano = texto.includes(marcador);\nif (transferirHumano) {\n  texto = texto.replace(marcador, '').trim();\n  if (!texto) texto = 'Vou te transferir para um atendente que pode ajudar melhor 🙂';\n}\n\nconst ctx = $('Montar prompt IA').item.json;\n\nreturn {\n  json: {\n    empresaId: ctx.empresaId,\n    phoneNumberId: ctx.phoneNumberId,\n    from: ctx.from,\n    nomeContato: ctx.nomeContato,\n    whatsappAccessToken: ctx.whatsappAccessToken,\n    telefoneNotificacao: ctx.telefoneNotificacao,\n    respostaFinal: texto,\n    transferirHumano,\n    motivoTransferencia: transferirHumano ? 'ia' : null,\n  }\n};"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000020",
+      "name": "Transferir para humano?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [3380, 340],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.transferirHumano === true }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      },
+      "notes": "Recebe tanto da 'Preparar transferência direta' (palavra-chave) quanto da 'Interpretar resposta da IA' (a própria IA decidiu transferir) — os dois nodes produzem o mesmo formato de saída."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000021",
+      "name": "Atualizar cliente - aguardando humano",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3640, 220],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$json.empresaId}}/clientes/{{$json.from}}?updateMask.fieldPaths=status&updateMask.fieldPaths=iaAtiva&updateMask.fieldPaths=nomeContato&updateMask.fieldPaths=ultimaInteracaoEm",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { status: { stringValue: 'aguardando_humano' }, iaAtiva: { booleanValue: false }, nomeContato: { stringValue: $json.nomeContato || '' }, ultimaInteracaoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000022",
+      "name": "Avisar cliente - transferência",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3900, 220],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{$('Transferir para humano?').item.json.phoneNumberId}}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$('Transferir para humano?').item.json.whatsappAccessToken}}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: $('Transferir para humano?').item.json.from, type: 'text', text: { body: $('Transferir para humano?').item.json.respostaFinal, preview_url: false } }) }}"
+      },
+      "notes": "A credencial 'Header Auth' aqui existe só pra satisfazer o node — o header Authorization real é sobrescrito pela expressão acima, usando o token da própria empresa."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000023",
+      "name": "Registrar aviso ao cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [4160, 220],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$('Transferir para humano?').item.json.empresaId}}/clientes/{{$('Transferir para humano?').item.json.from}}/mensagens",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { direcao: { stringValue: 'saida' }, texto: { stringValue: $('Transferir para humano?').item.json.respostaFinal }, tipo: { stringValue: 'text' }, motivoTransferencia: { stringValue: $('Transferir para humano?').item.json.motivoTransferencia || '' }, registradoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000024",
+      "name": "Tem telefone de equipe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [4420, 220],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose" },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ !!$('Transferir para humano?').item.json.telefoneNotificacao }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000025",
+      "name": "Avisar equipe",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [4680, 220],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{$('Transferir para humano?').item.json.phoneNumberId}}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$('Transferir para humano?').item.json.whatsappAccessToken}}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: $('Transferir para humano?').item.json.telefoneNotificacao, type: 'text', text: { body: '🔔 ' + ($('Transferir para humano?').item.json.nomeContato || $('Transferir para humano?').item.json.from) + ' pediu atendimento humano.\\nMensagem: \"' + ($('Parse empresa').item.json.texto || '') + '\"\\nResponda direto pelo WhatsApp da empresa.' } }) }}"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000026",
+      "name": "Enviar resposta ao cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3640, 460],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{$json.phoneNumberId}}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$json.whatsappAccessToken}}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: $json.from, type: 'text', text: { body: $json.respostaFinal, preview_url: false } }) }}"
+      }
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000027",
+      "name": "Registrar mensagem enviada",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3900, 460],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$('Transferir para humano?').item.json.empresaId}}/clientes/{{$('Transferir para humano?').item.json.from}}/mensagens",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { direcao: { stringValue: 'saida' }, texto: { stringValue: $('Transferir para humano?').item.json.respostaFinal }, tipo: { stringValue: 'text' }, registradoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      },
+      "notes": "Referencia 'Transferir para humano?' (não 'Enviar resposta ao cliente') porque o node anterior é uma chamada HTTP e substitui $json pela resposta da API do WhatsApp."
+    },
+    {
+      "id": "a1000000-0000-4000-8000-000000000028",
+      "name": "Atualizar cliente - última interação",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [4160, 460],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://firestore.googleapis.com/v1/projects/rdwebdesign-b5734/databases/(default)/documents/empresas/{{$('Transferir para humano?').item.json.empresaId}}/clientes/{{$('Transferir para humano?').item.json.from}}?updateMask.fieldPaths=status&updateMask.fieldPaths=iaAtiva&updateMask.fieldPaths=nomeContato&updateMask.fieldPaths=ultimaInteracaoEm",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ fields: { status: { stringValue: 'ia' }, iaAtiva: { booleanValue: true }, nomeContato: { stringValue: $('Transferir para humano?').item.json.nomeContato || '' }, ultimaInteracaoEm: { timestampValue: new Date().toISOString() } } }) }}",
+        "options": { "response": { "response": { "neverError": true } } }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Verificação": {
+      "main": [[{ "node": "Token de verificação correto?", "type": "main", "index": 0 }]]
+    },
+    "Token de verificação correto?": {
+      "main": [
+        [{ "node": "Responder challenge", "type": "main", "index": 0 }],
+        [{ "node": "Responder verificação negada", "type": "main", "index": 0 }]
+      ]
+    },
+    "Webhook - Mensagens": {
+      "main": [[{ "node": "Responder recebido", "type": "main", "index": 0 }]]
+    },
+    "Responder recebido": {
+      "main": [[{ "node": "Extrair mensagens Meta", "type": "main", "index": 0 }]]
+    },
+    "Extrair mensagens Meta": {
+      "main": [[{ "node": "Buscar empresa por telefone", "type": "main", "index": 0 }]]
+    },
+    "Buscar empresa por telefone": {
+      "main": [[{ "node": "Parse empresa", "type": "main", "index": 0 }]]
+    },
+    "Parse empresa": {
+      "main": [[{ "node": "Empresa encontrada?", "type": "main", "index": 0 }]]
+    },
+    "Empresa encontrada?": {
+      "main": [
+        [{ "node": "Registrar mensagem recebida", "type": "main", "index": 0 }],
+        [{ "node": "Registrar webhook não identificado", "type": "main", "index": 0 }]
+      ]
+    },
+    "Registrar mensagem recebida": {
+      "main": [[{ "node": "Pediu humano por palavra-chave?", "type": "main", "index": 0 }]]
+    },
+    "Pediu humano por palavra-chave?": {
+      "main": [
+        [{ "node": "Preparar transferência direta", "type": "main", "index": 0 }],
+        [{ "node": "Buscar serviços", "type": "main", "index": 0 }]
+      ]
+    },
+    "Preparar transferência direta": {
+      "main": [[{ "node": "Transferir para humano?", "type": "main", "index": 0 }]]
+    },
+    "Buscar serviços": {
+      "main": [[{ "node": "Parse serviços", "type": "main", "index": 0 }]]
+    },
+    "Parse serviços": {
+      "main": [[{ "node": "Montar prompt IA", "type": "main", "index": 0 }]]
+    },
+    "Montar prompt IA": {
+      "main": [[{ "node": "Chamar IA", "type": "main", "index": 0 }]]
+    },
+    "Chamar IA": {
+      "main": [[{ "node": "Interpretar resposta da IA", "type": "main", "index": 0 }]]
+    },
+    "Interpretar resposta da IA": {
+      "main": [[{ "node": "Transferir para humano?", "type": "main", "index": 0 }]]
+    },
+    "Transferir para humano?": {
+      "main": [
+        [{ "node": "Atualizar cliente - aguardando humano", "type": "main", "index": 0 }],
+        [{ "node": "Enviar resposta ao cliente", "type": "main", "index": 0 }]
+      ]
+    },
+    "Atualizar cliente - aguardando humano": {
+      "main": [[{ "node": "Avisar cliente - transferência", "type": "main", "index": 0 }]]
+    },
+    "Avisar cliente - transferência": {
+      "main": [[{ "node": "Registrar aviso ao cliente", "type": "main", "index": 0 }]]
+    },
+    "Registrar aviso ao cliente": {
+      "main": [[{ "node": "Tem telefone de equipe?", "type": "main", "index": 0 }]]
+    },
+    "Tem telefone de equipe?": {
+      "main": [
+        [{ "node": "Avisar equipe", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Enviar resposta ao cliente": {
+      "main": [[{ "node": "Registrar mensagem enviada", "type": "main", "index": 0 }]]
+    },
+    "Registrar mensagem enviada": {
+      "main": [[{ "node": "Atualizar cliente - última interação", "type": "main", "index": 0 }]]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" }
+}

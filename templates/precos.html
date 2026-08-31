@@ -1,0 +1,122 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import section_head %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="hero__aurora" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
+    <span class="hero__badge" data-reveal>💰 Preços e planos</span>
+    <h1 class="page-hero__title" data-reveal data-reveal-delay="1">
+      Preços <em>transparentes</em><br>sem surpresas
+    </h1>
+    <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+      O valor que você vê aqui é o valor que você paga. Sem taxas escondidas,
+      sem cobrar por extras básicos.
+    </p>
+  </div>
+</section>
+
+{# ── Setup ── #}
+<section class="section" id="setup">
+  <div class="container">
+    {{ section_head("Setup", "Entrega do seu site") }}
+    <div class="price-cards">
+      {% for s in services if s.slug != 'logotipo' %}
+      <div class="price-card{{ ' price-card--featured' if s.featured }}" data-reveal data-reveal-delay="{{ loop.index0 }}" data-tilt>
+        <span class="price-card__icon">{{ s.icon }}</span>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.short }}</p>
+        <div class="price-card__price">{{ s.price_full }}</div>
+        <ul>{% for h in s.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
+        <p class="price-card__upsell">+ plano mensal a partir de R$ 297/mês para manutenção e suporte contínuo</p>
+        <a href="/{{ s.page }}" class="btn btn--primary btn--block" data-transition data-magnetic>Ver detalhes →</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── Tabela completa ── #}
+<section class="section section--alt">
+  <div class="container">
+    {{ section_head("Todos os serviços", "Tabela completa") }}
+    <div class="price-table" data-reveal>
+      {% for row in price_table %}
+      <a href="{{ row.href }}" class="price-row{{ ' is-highlight' if row.highlight }}"{% if row.href.endswith('.html') and '#' not in row.href %} data-transition{% endif %}>
+        <span class="price-row__name">{{ row.icon }} {{ row.name }}</span>
+        <span class="price-row__value">{{ row.price }} <i>→</i></span>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="note" data-reveal>
+      <span class="note__icon">💡</span>
+      <p><strong>Sobre os preços.</strong> {{ price_note }}</p>
+    </div>
+  </div>
+</section>
+
+{# ── Planos ── #}
+<section class="section" id="planos">
+  <div class="container">
+    {{ section_head("Recorrência", "Planos de manutenção mensal",
+       "Depois que seu site está no ar, mantenha ele funcionando, atualizado e gerando resultado.", center=true) }}
+
+    <div class="plans-table-wrap" data-reveal>
+      <table class="plans-table">
+        <thead>
+          <tr>
+            <th></th>
+            {% for plan in plans %}
+            <th class="{{ 'is-featured' if plan.featured }}">
+              {{ plan.name }}<span>{{ plan.price }}{{ plan.period }}</span>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for feat in plan_features %}
+          {% set fi = loop.index0 %}
+          <tr>
+            <th>{{ feat }}</th>
+            {% for plan in plans %}
+            {% set v = plan.cells[fi] %}
+            <td class="{{ 'is-featured' if plan.featured }}">
+              {% if v == 'sim' %}<span class="tick">✓</span>{% elif v == 'não' %}<span class="cross">–</span>{% else %}{{ v }}{% endif %}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          <tr class="plans-table__cta">
+            <td></td>
+            {% for plan in plans %}
+            <td class="{{ 'is-featured' if plan.featured }}">
+              <a href="/index.html#contato" class="btn {{ 'btn--primary' if plan.featured else 'btn--ghost' }} btn--sm btn--block" data-magnetic>{{ plan.cta }}</a>
+            </td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="plans__note" data-reveal>
+      <strong>Por que ter um plano mensal?</strong> {{ maintenance_note }}
+    </p>
+  </div>
+</section>
+
+{# ── CTA final ── #}
+<section class="section section--alt">
+  <div class="container container--narrow">
+    <div class="cta-box" data-reveal data-tilt>
+      <span class="sec-label sec-label--center">Ficou com dúvidas?</span>
+      <h2>Vamos conversar<br>sem compromisso</h2>
+      <p>Me manda uma mensagem no WhatsApp e te dou um orçamento personalizado em até 2 horas.</p>
+      <div class="cta-box__actions">
+        <a href="{{ wa_link('Olá! Gostaria de um orçamento para um projeto.') }}" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic>Falar no WhatsApp</a>
+        <a href="mailto:{{ SITE.email }}?subject=Orçamento RD Webdesign" class="btn btn--ghost" data-magnetic>Enviar e-mail →</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

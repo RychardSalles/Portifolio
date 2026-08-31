@@ -1,0 +1,12 @@
+# Build gerado pelo Python (Netlify recria no deploy)
+/dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor / SO
+.DS_Store
+Thumbs.db

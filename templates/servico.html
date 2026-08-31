@@ -1,0 +1,126 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import section_head, project_card, faq_list %}
+
+{% block content %}
+<section class="page-hero page-hero--svc">
+  <div class="hero__aurora" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span><span class="blob blob--3"></span></div>
+  <div class="hero__grid" aria-hidden="true" data-parallax="0.12"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="container svc-hero">
+    <div class="svc-hero__content">
+      <a href="/servicos.html" class="svc-hero__back" data-transition>← Voltar para serviços</a>
+      <span class="hero__badge" data-reveal>{{ d.badge }}</span>
+      <h1 class="svc-hero__title" data-reveal data-reveal-delay="1">{{ d.hero_title_html|safe }}</h1>
+      <p class="svc-hero__sub" data-reveal data-reveal-delay="2">{{ d.hero_sub }}</p>
+      <div class="svc-hero__actions" data-reveal data-reveal-delay="3">
+        <a href="{{ wa_link('Olá! Quero contratar: ' ~ svc.name ~ '.') }}" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic>Contratar agora — {{ svc.price }}</a>
+        <a href="#incluso" class="btn btn--ghost" data-magnetic>O que está incluso →</a>
+      </div>
+      <ul class="svc-hero__guarantees" data-reveal data-reveal-delay="4">
+        {% for g in d.guarantees %}<li>✓ {{ g }}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="svc-hero__card" data-reveal data-reveal-dir="scale" data-tilt>
+      <div class="price-widget">
+        <span class="price-widget__label">Investimento</span>
+        <div class="price-widget__value">{{ svc.price_full }}</div>
+        <p class="price-widget__note">{{ d.price_note }}</p>
+        <ul>{% for h in svc.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
+        <a href="{{ wa_link('Olá! Quero contratar: ' ~ svc.name ~ '.') }}" target="_blank" rel="noopener" class="btn btn--primary btn--block" data-magnetic>Quero começar</a>
+        <p class="price-widget__resp">📱 {{ SITE.response_time }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Para quem / por que ── #}
+<section class="section section--alt">
+  <div class="container">
+    {{ section_head("Vale a pena?", "Por que investir nisso") }}
+    <div class="feature-grid">
+      {% for item in d.for_who %}
+      <div class="feature" data-reveal data-reveal-delay="{{ loop.index0 % 4 }}" data-tilt>
+        <span class="feature__icon">{{ item.icon }}</span>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── O que está incluso ── #}
+<section class="section" id="incluso">
+  <div class="container includes">
+    <div class="includes__head">
+      <span class="sec-label" data-reveal>O que está incluso</span>
+      <h2 class="sec-title" data-reveal data-reveal-delay="1">Tudo que você precisa<br>em um só pacote</h2>
+      <p class="sec-sub" data-reveal data-reveal-delay="2">Sem taxas surpresa, sem cobrar à parte por coisas básicas. Preço fechado.</p>
+      <a href="{{ wa_link('Olá! Quero contratar: ' ~ svc.name ~ '.') }}" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic data-reveal data-reveal-delay="3">Contratar — {{ svc.price }}</a>
+    </div>
+    <ul class="includes__list">
+      {% for title, desc in d.includes %}
+      <li data-reveal data-reveal-delay="{{ loop.index0 % 4 }}">
+        <span class="includes__check">✓</span>
+        <span><strong>{{ title }}</strong><small>{{ desc }}</small></span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{# ── Processo ── #}
+<section class="section section--alt">
+  <div class="container">
+    {{ section_head("Como funciona", "Passo a passo", center=true) }}
+    <div class="steps">
+      <div class="steps__line" aria-hidden="true"></div>
+      {% for emoji, title, desc in d.process %}
+      <div class="step" data-reveal data-reveal-delay="{{ loop.index0 }}">
+        <div class="step__num">{{ "%02d"|format(loop.index) }}</div>
+        <div class="step__emoji">{{ emoji }}</div>
+        <h3 class="step__title">{{ title }}</h3>
+        <p class="step__desc">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── Portfólio relacionado ── #}
+{% if related %}
+<section class="section">
+  <div class="container">
+    {{ section_head("Projetos realizados", "Trabalhos parecidos") }}
+    <div class="proj-grid">
+      {% for p in related %}{{ project_card(p, loop.index0) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── FAQ ── #}
+<section class="section section--alt">
+  <div class="container container--narrow">
+    {{ section_head("Dúvidas frequentes", "Perguntas mais comuns", center=true) }}
+    {{ faq_list(d.faq) }}
+  </div>
+</section>
+
+{# ── CTA final ── #}
+<section class="section">
+  <div class="container container--narrow">
+    <div class="cta-box" data-reveal data-tilt>
+      <span class="sec-label sec-label--center">Pronto para começar?</span>
+      <h2>Sua {{ svc.name|lower }}<br>começa hoje</h2>
+      <p>Entre em contato agora e receba um orçamento personalizado em até 2 horas. Sem compromisso.</p>
+      <div class="cta-box__actions">
+        <a href="{{ wa_link('Olá! Quero contratar: ' ~ svc.name ~ ' pela RD Webdesign.') }}" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic>Falar no WhatsApp</a>
+        <a href="mailto:{{ SITE.email }}?subject=Orçamento {{ svc.name }}" class="btn btn--ghost" data-magnetic>Enviar e-mail →</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

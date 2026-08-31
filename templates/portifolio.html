@@ -1,0 +1,48 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import project_card %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="hero__aurora" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
+    <span class="hero__badge" data-reveal>Projetos realizados</span>
+    <h1 class="page-hero__title" data-reveal data-reveal-delay="1">
+      Cada projeto conta uma<br><em>história de resultado</em>
+    </h1>
+    <p class="page-hero__sub" data-reveal data-reveal-delay="2">
+      Sites e páginas desenvolvidos com foco em conversão, velocidade e um design
+      que se destaca da concorrência.
+    </p>
+    <a href="/index.html#contato" class="btn btn--primary" data-magnetic>Quero um projeto assim →</a>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="pf-filters" data-reveal>
+      {% for f in filters %}
+      <button class="pf-filters__btn{{ ' is-active' if loop.first }}" data-filter="{{ f.key }}">{{ f.label }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="proj-grid" id="projGrid">
+      {% for p in projects %}{{ project_card(p, loop.index0) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--narrow">
+    <div class="cta-box" data-reveal data-tilt>
+      <span class="sec-label sec-label--center">Próximo passo</span>
+      <h2>Seu projeto pode<br>ser o próximo</h2>
+      <p>Transforme a ideia do seu negócio em um site que trabalha por você todos os dias.</p>
+      <div class="cta-box__actions">
+        <a href="/index.html#contato" class="btn btn--primary" data-magnetic>Solicitar orçamento →</a>
+        <a href="/precos.html" class="btn btn--ghost" data-transition data-magnetic>Ver tabela de preços</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

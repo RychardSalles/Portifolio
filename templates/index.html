@@ -1,0 +1,246 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import section_head, service_card, project_card, faq_list %}
+
+{% block content %}
+
+{# ═══════════ HERO ═══════════ #}
+<section class="hero" id="topo">
+  <div class="hero__aurora" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="blob blob--3"></span>
+  </div>
+  <div class="hero__grid" aria-hidden="true" data-parallax="0.15"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__badge" data-reveal>
+      <span class="pulse-dot"></span> Aceitando novos projetos
+    </div>
+
+    <h1 class="hero__title">
+      <span class="line" data-split>Sites e sistemas que</span>
+      <span class="line" data-split><em>vendem</em> enquanto</span>
+      <span class="line" data-split>você dorme</span>
+    </h1>
+
+    <p class="hero__sub" data-reveal data-reveal-delay="1">
+      {{ SITE.tagline }}. Sites, landing pages e lojas virtuais são só o começo —
+      entrega rápida, comunicação direta e foco total em resultado.
+    </p>
+
+    <p class="hero__niche" data-reveal data-reveal-delay="2">✦ {{ SITE.niche }}</p>
+
+    <div class="hero__actions" data-reveal data-reveal-delay="3">
+      <a href="#contato" class="btn btn--primary" data-magnetic>Quero um orçamento</a>
+      <a href="/portifolio.html" class="btn btn--ghost" data-transition data-magnetic>Ver projetos</a>
+    </div>
+
+    <div class="hero__stats">
+      {% for st in stats %}
+      <div class="stat" data-reveal data-reveal-delay="{{ loop.index0 }}">
+        <div class="stat__num"><span data-count="{{ st.value }}">0</span>{{ st.suffix }}</div>
+        <div class="stat__label">{{ st.label }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <a href="#filosofia" class="hero__scroll" aria-label="Rolar para baixo">
+    <span></span>
+  </a>
+</section>
+
+{# ═══════════ MARQUEE ═══════════ #}
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {% for _ in range(2) %}
+    <span>Sites</span><i>◆</i><span>Landing Pages</span><i>◆</i><span>Lojas Virtuais</span><i>◆</i>
+    <span>Identidade Visual</span><i>◆</i><span>Automação</span><i>◆</i><span>Presença Digital</span><i>◆</i>
+    {% endfor %}
+  </div>
+</div>
+
+{# ═══════════ FILOSOFIA ═══════════ #}
+<section class="section philosophy" id="filosofia">
+  <div class="container">
+    <span class="sec-label sec-label--center" data-reveal>Nossa filosofia</span>
+    <p class="philosophy__quote" data-reveal data-reveal-delay="1">
+      Nós não vendemos sites. Criamos <em>soluções digitais</em> que ajudam empresas a
+      vender mais, economizar tempo e crescer de forma sustentável.
+    </p>
+  </div>
+</section>
+
+{# ═══════════ SERVIÇOS ═══════════ #}
+<section class="section section--alt" id="servicos">
+  <div class="container">
+    {{ section_head("O que eu faço", "Clique e conheça<br>cada serviço",
+       "Cada projeto é desenvolvido com foco em conversão, velocidade e experiência de quem usa.") }}
+
+    <div class="svc-grid">
+      {% for s in services %}{{ service_card(s, loop.index0) }}{% endfor %}
+      {% for s in extra_services %}{{ service_card(s, (services|length + loop.index0), link=false) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ═══════════ PLANOS DE MANUTENÇÃO ═══════════ #}
+<section class="section" id="planos">
+  <div class="container">
+    {{ section_head("Depois da entrega", "Seu site no ar.<br>Sua agenda cheia. Todo mês.",
+       "Cuido do seu site para que ele continue funcionando, atualizado e gerando clientes — sem você se preocupar com nada técnico.", center=true) }}
+
+    <div class="plans">
+      {% for plan in plans %}
+      <div class="plan{{ ' plan--featured' if plan.featured }}" data-reveal data-reveal-delay="{{ loop.index0 }}" data-tilt>
+        {% if plan.badge %}<span class="plan__badge">{{ plan.badge }}</span>{% endif %}
+        <div class="plan__name">{{ plan.name }}</div>
+        <div class="plan__price">{{ plan.price }}<span>{{ plan.period }}</span></div>
+        <ul class="plan__features">
+          {% for feat in plan_features %}
+          {% set v = plan.cells[loop.index0] %}
+          <li class="{{ 'is-yes' if v == 'sim' else ('is-no' if v == 'não' else 'is-val') }}">
+            {% if v == 'sim' %}{{ feat }}{% elif v == 'não' %}{{ feat }}{% else %}{{ feat }}: <strong>{{ v }}</strong>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="#contato" class="btn {{ 'btn--primary' if plan.featured else 'btn--ghost' }} btn--block" data-magnetic>{{ plan.cta }}</a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <p class="plans__note" data-reveal>
+      <strong>Por que ter um plano mensal?</strong> {{ maintenance_note }}
+    </p>
+  </div>
+</section>
+
+{# ═══════════ PORTFÓLIO ═══════════ #}
+<section class="section section--alt" id="portfolio">
+  <div class="container">
+    <div class="sec-head sec-head--row">
+      <div>
+        <span class="sec-label" data-reveal>Portfólio</span>
+        <h2 class="sec-title" data-reveal data-reveal-delay="1">Projetos<br>no ar agora</h2>
+      </div>
+      <div class="sec-head__actions" data-reveal data-reveal-delay="2">
+        <a href="/portifolio.html" class="btn btn--ghost" data-transition data-magnetic>Portfólio completo</a>
+        <a href="#contato" class="btn btn--primary" data-magnetic>Quero um assim</a>
+      </div>
+    </div>
+
+    <div class="proj-grid">
+      {% for p in projects %}{{ project_card(p, loop.index0) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ═══════════ PROCESSO ═══════════ #}
+<section class="section" id="processo">
+  <div class="container">
+    {{ section_head("Como funciona", "Do briefing ao ar<br>em menos de 7 dias",
+       "Processo simples, transparente e sem burocracia para você.", center=true) }}
+
+    <div class="steps">
+      <div class="steps__line" aria-hidden="true"></div>
+      {% for step in process %}
+      <div class="step" data-reveal data-reveal-delay="{{ loop.index0 }}">
+        <div class="step__num">{{ step.num }}</div>
+        <div class="step__emoji">{{ step.emoji }}</div>
+        <h3 class="step__title">{{ step.title }}</h3>
+        <p class="step__desc">{{ step.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ═══════════ POR QUE EU ═══════════ #}
+<section class="section section--alt" id="prova">
+  <div class="container">
+    {{ section_head("Por que a RD Webdesign?", "Transparência e resultado<br>como prioridade", proof_intro) }}
+
+    {% for t in testimonials %}
+    <blockquote class="testimonial" data-reveal>
+      <div class="testimonial__icon">“</div>
+      <p>{{ t.text }}</p>
+      <cite>— {{ t.author }}</cite>
+    </blockquote>
+    {% endfor %}
+
+    <div class="commit-grid">
+      {% for c in commitments %}
+      <div class="commit" data-reveal data-reveal-delay="{{ loop.index0 }}" data-tilt>
+        <span class="commit__icon">{{ c.icon }}</span>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ═══════════ FAQ ═══════════ #}
+<section class="section" id="faq">
+  <div class="container container--narrow">
+    {{ section_head("Dúvidas frequentes", "Antes de você perguntar",
+       "As respostas pras dúvidas que mais recebo antes de fechar um projeto.", center=true) }}
+    {{ faq_list(faq) }}
+  </div>
+</section>
+
+{# ═══════════ CONTATO ═══════════ #}
+<section class="section section--alt contact" id="contato">
+  <div class="container contact__inner">
+    <div class="contact__info">
+      <span class="sec-label" data-reveal>Vamos conversar</span>
+      <h2 class="sec-title" data-reveal data-reveal-delay="1">Pronto para ter um site<br>que vende de verdade?</h2>
+      <p class="sec-sub" data-reveal data-reveal-delay="2">
+        Preencha o formulário ou me chame direto no WhatsApp. {{ SITE.response_time }}.
+      </p>
+
+      <div class="contact__items" data-reveal data-reveal-delay="3">
+        <a href="{{ wa_link() }}" target="_blank" rel="noopener" class="contact__item" data-magnetic>
+          <span class="contact__item-icon">📱</span>
+          <span><small>WhatsApp</small><strong>{{ SITE.whatsapp_display }}</strong></span>
+        </a>
+        <div class="contact__item">
+          <span class="contact__item-icon">⏰</span>
+          <span><small>Atendimento</small><strong>{{ SITE.hours }}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact__form" id="contactForm" data-reveal data-reveal-delay="2">
+      <div class="field-row">
+        <label class="field">
+          <span>Seu nome</span>
+          <input type="text" name="nome" placeholder="João Silva" required>
+        </label>
+        <label class="field">
+          <span>WhatsApp</span>
+          <input type="tel" name="telefone" placeholder="(11) 99999-0000">
+        </label>
+      </div>
+      <label class="field">
+        <span>E-mail</span>
+        <input type="email" name="email" placeholder="joao@empresa.com">
+      </label>
+      <label class="field">
+        <span>O que você precisa?</span>
+        <select name="servico" required>
+          <option value="" disabled selected>Selecione um serviço</option>
+          {% for opt in contact_options %}<option>{{ opt }}</option>{% endfor %}
+        </select>
+      </label>
+      <label class="field">
+        <span>Conte sobre o projeto</span>
+        <textarea name="mensagem" rows="4" placeholder="Descreva seu negócio e o que espera do site..."></textarea>
+      </label>
+      <button type="submit" class="btn btn--primary btn--block" data-magnetic>Enviar pelo WhatsApp →</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

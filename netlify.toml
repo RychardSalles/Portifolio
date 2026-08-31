@@ -1,0 +1,36 @@
+# Configuração de deploy do site RD Webdesign no Netlify.
+# O site é gerado por um script Python (build.py) a partir de content.py + templates.
+
+[build]
+  command = "pip install -r requirements.txt && python build.py"
+  publish = "dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+# Cache agressivo para os assets versionados (CSS/JS/imagens)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Redireciona URLs sem .html para o arquivo correspondente
+[[redirects]]
+  from = "/servicos"
+  to = "/servicos.html"
+  status = 301
+
+[[redirects]]
+  from = "/precos"
+  to = "/precos.html"
+  status = 301
+
+[[redirects]]
+  from = "/portifolio"
+  to = "/portifolio.html"
+  status = 301

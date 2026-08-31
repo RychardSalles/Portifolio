@@ -1,0 +1,63 @@
+{# ── Cabeçalho de seção reutilizável ───────────────────────── #}
+{% macro section_head(label, title_html, sub='', center=false) %}
+<div class="sec-head{{ ' sec-head--center' if center }}">
+  <span class="sec-label" data-reveal>{{ label }}</span>
+  <h2 class="sec-title" data-reveal data-reveal-delay="1">{{ title_html|safe }}</h2>
+  {% if sub %}<p class="sec-sub" data-reveal data-reveal-delay="2">{{ sub }}</p>{% endif %}
+</div>
+{% endmacro %}
+
+
+{# ── Card de serviço (home / serviços) ─────────────────────── #}
+{% macro service_card(s, i=0, link=true) %}
+{% set href = ('/' ~ s.page) if s.page is defined else '/index.html#contato' %}
+<a href="{{ href }}"
+   class="svc-card{{ ' svc-card--featured' if s.featured }}"
+   data-reveal data-reveal-delay="{{ i }}" data-tilt
+   {% if s.page is defined %}data-transition{% endif %}>
+  <span class="svc-card__glow" aria-hidden="true"></span>
+  <span class="svc-card__icon">{{ s.icon }}</span>
+  <h3 class="svc-card__name">{{ s.name }}</h3>
+  <p class="svc-card__desc">{{ s.short }}</p>
+  {% if s.price is defined %}<div class="svc-card__price">{{ s.price }}</div>{% endif %}
+  <ul class="svc-card__list">
+    {% for h in s.highlights %}<li>{{ h }}</li>{% endfor %}
+  </ul>
+  <span class="svc-card__cta">{{ s.cta }} <i>→</i></span>
+</a>
+{% endmacro %}
+
+
+{# ── Card de projeto (portfólio) ───────────────────────────── #}
+{% macro project_card(p, i=0) %}
+<a href="{{ p.url }}" target="_blank" rel="noopener"
+   class="proj{{ ' proj--featured' if p.featured }}"
+   data-cat="{{ p.category }}" data-reveal data-reveal-delay="{{ i % 3 }}" data-tilt>
+  <div class="proj__frame">
+    <div class="proj__scaler">
+      <iframe src="{{ p.url }}" scrolling="no" loading="lazy" title="{{ p.name }}" tabindex="-1"></iframe>
+    </div>
+    <div class="proj__shine" aria-hidden="true"></div>
+  </div>
+  <div class="proj__info">
+    <span class="proj__tag">{{ p.tag }}</span>
+    <span class="proj__name">{{ p.name }}</span>
+  </div>
+  <div class="proj__hover">
+    <span>Ver projeto</span><i>↗</i>
+  </div>
+</a>
+{% endmacro %}
+
+
+{# ── FAQ nativo (details/summary) ──────────────────────────── #}
+{% macro faq_list(items) %}
+<div class="faq">
+  {% for q, a in items %}
+  <details class="faq__item" data-reveal data-reveal-delay="{{ loop.index0 % 3 }}">
+    <summary>{{ q }}<span class="faq__mark" aria-hidden="true"></span></summary>
+    <div class="faq__answer"><p>{{ a }}</p></div>
+  </details>
+  {% endfor %}
+</div>
+{% endmacro %}
