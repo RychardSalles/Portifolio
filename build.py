@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import hashlib
 import http.server
 import shutil
 import socketserver
@@ -50,6 +51,20 @@ def wa_link(message: str | None = None) -> str:
     return f"https://wa.me/{content.SITE['whatsapp']}?text={quote(msg)}"
 
 
+def asset(rel: str) -> str:
+    """URL de asset com cache-busting por hash do conteúdo.
+
+    O netlify.toml serve /assets/* como `immutable` por 1 ano, então
+    sem o ?v=<hash> os visitantes recorrentes ficam presos ao CSS/JS antigo.
+    """
+    path = STATIC_DIR / "assets" / rel
+    try:
+        digest = hashlib.md5(path.read_bytes()).hexdigest()[:8]
+    except FileNotFoundError:
+        digest = "0"
+    return f"/assets/{rel}?v={digest}"
+
+
 def build_env() -> Environment:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -61,6 +76,7 @@ def build_env() -> Environment:
         SITE=content.SITE,
         NAV=content.NAV,
         wa_link=wa_link,
+        asset=asset,
         now=_dt.datetime.now(),
         current_year=content.SITE["year"],
     )
