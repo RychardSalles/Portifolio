@@ -13,7 +13,8 @@
   <div class="hero__grid" aria-hidden="true" data-parallax="0.15"></div>
   <div class="grain" aria-hidden="true"></div>
 
-  <div class="hero__inner">
+  <div class="hero__inner hero__inner--grid">
+   <div class="hero__content">
     <div class="hero__badge" data-reveal>
       <span class="pulse-dot"></span> Aceitando novos projetos
     </div>
@@ -44,6 +45,43 @@
       </div>
       {% endfor %}
     </div>
+   </div>
+
+   <div class="hero__visual" data-reveal data-reveal-dir="scale" data-reveal-delay="2" aria-hidden="true">
+    <div class="phone" data-tilt>
+      <span class="phone__notch"></span>
+      <div class="phone__screen">
+        <div class="phone__topbar">
+          <span class="phone__back">‹</span>
+          <span class="phone__avatar">C</span>
+          <span class="phone__peer">
+            <strong>Cliente novo</strong>
+            <small>online</small>
+          </span>
+          <span class="phone__call">📞</span>
+        </div>
+        <div class="phone__chat">
+          <span class="chat__day">hoje</span>
+          <div class="msg msg--in">
+            Oi! Vi o site de vocês no Google 👀
+            <time>23:47</time>
+          </div>
+          <div class="msg msg--in">
+            Quero um orçamento pra minha empresa
+            <time>23:47</time>
+          </div>
+          <div class="msg msg--out">
+            Boa noite! Claro, me conta um pouco sobre o seu negócio 🙌
+            <time>23:48 ✓✓</time>
+          </div>
+          <div class="msg msg--typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="phone__ping">Nova mensagem</span>
+   </div>
   </div>
 
   <a href="#filosofia" class="hero__scroll" aria-label="Rolar para baixo">

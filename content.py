@@ -415,6 +415,9 @@ PROJECTS = [
     {"name": "Black Gold Barbearia", "url": "https://black-gold-barbearia.netlify.app", "category": "institucional", "tag": "Site Institucional • Barbearia"},
     {"name": "Brasa & Sal", "url": "https://brasa-e-sal.netlify.app", "category": "institucional", "tag": "Site Institucional • Restaurante"},
     {"name": "Pinnacle Imóveis", "url": "https://pinnacle-imoveis.netlify.app", "category": "institucional", "tag": "Site Institucional • Imóveis"},
+    {"name": "Chácara Monte Verde", "url": "https://chacara-monteverde.netlify.app", "category": "institucional", "tag": "Site Institucional • Eventos"},
+    {"name": "Abby Consultora de Imóveis", "url": "https://consultora-imoveis.netlify.app", "category": "landing", "tag": "Landing Page • Imóveis"},
+    {"name": "Saber Ensino Individual", "url": "https://saber-ensino-site.netlify.app", "category": "institucional", "tag": "Site Institucional • Educação"},
 ]
 
 PROJECT_FILTERS = [
